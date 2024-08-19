@@ -1,3 +1,5 @@
+using Ocelot.DependencyInjection;
+
 namespace ApiGatewayOcelot
 {
     public class Program
@@ -8,6 +10,10 @@ namespace ApiGatewayOcelot
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+
+            // Add ocelot configuration file and injecting ocelot service
+            builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+            builder.Services.AddOcelot();
 
             var app = builder.Build();
 
