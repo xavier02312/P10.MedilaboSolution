@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MediLaboSolutions.Models.InputModels
+namespace PatientService.Models.InputModels
 {
     public class PatientInputModel
     {

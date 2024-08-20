@@ -1,9 +1,7 @@
-
-using MediLaboSolutions.Repositories;
 using Microsoft.EntityFrameworkCore;
-using MediLaboSolutions.Service;
-using PatientMicroservice.Data;
-using PatientMicroservice.Service;
+using PatientService.Data;
+using PatientService.Repositories;
+using PatientService.Service;
 
 namespace PatientService
 {

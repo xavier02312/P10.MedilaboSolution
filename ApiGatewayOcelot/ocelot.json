@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "UpstreamPathTemplate": "/gateway/Patient/list",
+      "UpstreamPathTemplate": "/gateway/Patient/list", // ok
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/Patient/list",
       "DownstreamScheme": "https",
@@ -14,7 +14,7 @@
       "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "UpstreamPathTemplate": "/Patient/Ajout",
+      "UpstreamPathTemplate": "/gateway/Patient/Ajout", // Non HTTP ERROR 405
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/Patient/Ajout",
       "DownstreamScheme": "https",
@@ -27,9 +27,9 @@
       "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "UpstreamPathTemplate": "/Patient/{id}",
+      "UpstreamPathTemplate": "/gateway/Patient?id={id}", // ok 
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/Patient/{id}",
+      "DownstreamPathTemplate": "/Patient?id={id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -40,9 +40,9 @@
       "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "UpstreamPathTemplate": "/Patient/update/{id}",
+      "UpstreamPathTemplate": "/gateway/Patient/update?id={id}", // Non HTTP ERROR 405
       "UpstreamHttpMethod": [ "Put" ],
-      "DownstreamPathTemplate": "/Patient/update/{id}",
+      "DownstreamPathTemplate": "/Patient/update?id={id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -53,9 +53,9 @@
       "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "UpstreamPathTemplate": "/Patient/delete/{id}",
+      "UpstreamPathTemplate": "/gateway/Patient/delete?id={id}",
       "UpstreamHttpMethod": [ "Delete" ],
-      "DownstreamPathTemplate": "/Patient/{id}",
+      "DownstreamPathTemplate": "/Patient/delete?id={id}", // Non HTTP ERROR 405
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {

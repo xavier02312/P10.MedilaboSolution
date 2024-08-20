@@ -1,4 +1,4 @@
-﻿namespace MediLaboSolutions.Models.OutputModels
+﻿namespace PatientService.Models.OutputModels
 {
     public class PatientOutputModel
     {
