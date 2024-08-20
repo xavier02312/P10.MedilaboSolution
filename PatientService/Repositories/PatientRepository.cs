@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PatientMicroservice.Data;
-using PatientMicroservice.Domain;
+using PatientService.Data;
+using PatientService.Domain;
 
-namespace MediLaboSolutions.Repositories
+namespace PatientService.Repositories
 {
     public class PatientRepository : IPatientRepository
     {

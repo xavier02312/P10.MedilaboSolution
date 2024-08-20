@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PatientMicroservice.Domain;
+using PatientService.Domain;
 
-namespace PatientMicroservice.Data
+namespace PatientService.Data
 {
     public class LocalDbContext : DbContext
     {

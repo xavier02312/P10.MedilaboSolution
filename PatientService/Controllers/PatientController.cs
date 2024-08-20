@@ -1,8 +1,8 @@
-﻿using MediLaboSolutions.Models.InputModels;
-using MediLaboSolutions.Service;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using PatientService.Models.InputModels;
+using PatientService.Service;
 
-namespace MediLaboSolutions.Controllers
+namespace PatientService.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -38,7 +38,7 @@ namespace MediLaboSolutions.Controllers
                 return StatusCode(500, "Une erreur interne s'est produite");
             }
         }
- 
+
         /// <summary>
         /// POST: PatientController
         /// </summary>
@@ -65,7 +65,7 @@ namespace MediLaboSolutions.Controllers
         /// <param name="id"></param>
         /// <returns>200 ok</returns>
         /// <returns>404 Si pas trouver</returns>
-        [HttpGet("{id}")]
+        [HttpGet]
         public async Task<IActionResult> GetPatientById(int id)
         {
             var patient = await _patientService.GetByIdAsync(id);
@@ -84,8 +84,8 @@ namespace MediLaboSolutions.Controllers
         /// <param name="input"></param>
         /// <returns>200</returns>
         [HttpPut]
-        [Route("update/{id}")]
-        public async Task<IActionResult> UpdatePatientId([FromRoute] int id, [FromBody] PatientInputModel input)
+        [Route("update")]
+        public async Task<IActionResult> UpdatePatientId([FromQuery] int id, [FromBody] PatientInputModel input)
         {
             try
             {
@@ -111,8 +111,8 @@ namespace MediLaboSolutions.Controllers
         /// <param name="id"></param>
         /// <returns>200</returns>
         [HttpDelete]
-        [Route("delete/{id}")]
-        public async Task<IActionResult> DeletePatientById(int id)
+        [Route("delete")]
+        public async Task<IActionResult> DeletePatientById([FromQuery] int id)
         {
             try
             {
@@ -130,7 +130,7 @@ namespace MediLaboSolutions.Controllers
             {
                 return StatusCode(500, "Une erreur interne s'est produite");
             }
-            
+
         }
 
         /*// GET: PatientController/Details/5
