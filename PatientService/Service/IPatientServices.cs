@@ -1,8 +1,7 @@
-﻿using MediLaboSolutions.Models.OutputModels;
-using MediLaboSolutions.Models.InputModels;
-using PatientMicroservice.Domain;
+﻿using PatientService.Models.InputModels;
+using PatientService.Models.OutputModels;
 
-namespace MediLaboSolutions.Service
+namespace PatientService.Service
 {
     public interface IPatientServices
     {

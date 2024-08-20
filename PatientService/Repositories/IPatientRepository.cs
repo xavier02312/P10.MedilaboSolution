@@ -1,6 +1,6 @@
-﻿using PatientMicroservice.Domain;
+﻿using PatientService.Domain;
 
-namespace MediLaboSolutions.Repositories
+namespace PatientService.Repositories
 {
     public interface IPatientRepository
     {

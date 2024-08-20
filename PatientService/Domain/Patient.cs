@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PatientMicroservice.Domain
+namespace PatientService.Domain
 {
     public class Patient
     {
@@ -17,7 +17,7 @@ namespace PatientMicroservice.Domain
         [DataType(DataType.Date)]
         [Display(Name = "Date de Naissance")]
         public DateTime DateOfBirth { get; set; }
-        [Required,StringLength(10)]
+        [Required, StringLength(10)]
         [Display(Name = "Genre")]
         public string? Gender { get; set; }
         [StringLength(100)]

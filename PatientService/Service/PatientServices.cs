@@ -1,10 +1,9 @@
-﻿using MediLaboSolutions.Models.InputModels;
-using MediLaboSolutions.Models.OutputModels;
-using MediLaboSolutions.Repositories;
-using MediLaboSolutions.Service;
-using PatientMicroservice.Domain;
+﻿using PatientService.Domain;
+using PatientService.Models.InputModels;
+using PatientService.Models.OutputModels;
+using PatientService.Repositories;
 
-namespace PatientMicroservice.Service
+namespace PatientService.Service
 {
     public class PatientServices : IPatientServices
     {
@@ -96,14 +95,14 @@ namespace PatientMicroservice.Service
         }
 
         private PatientOutputModel ToOutputModel(Patient patient) => new PatientOutputModel
-            {
-                Id = patient.Id,
-                FirstName = patient.FirstName,
-                LastName = patient.LastName,
-                DateOfBirth = patient.DateOfBirth,
-                Gender = patient.Gender,
-                Address = patient.Address,
-                PhoneNumber = patient.PhoneNumber,
-            };
+        {
+            Id = patient.Id,
+            FirstName = patient.FirstName,
+            LastName = patient.LastName,
+            DateOfBirth = patient.DateOfBirth,
+            Gender = patient.Gender,
+            Address = patient.Address,
+            PhoneNumber = patient.PhoneNumber,
+        };
     }
 }
