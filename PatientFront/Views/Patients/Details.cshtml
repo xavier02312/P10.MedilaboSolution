@@ -1,0 +1,18 @@
+﻿@model PatientService.Models.OutputModels.PatientOutputModel
+
+@{
+    ViewData["Title"] = "Détails du Patient";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h2>@Model.FirstName @Model.LastName</h2>
+    <p><strong>ID :</strong> @Model.Id</p>
+    <p><strong>Date de Naissance :</strong> @Model.DateOfBirth.ToShortDateString()</p>
+    <p><strong>Genre :</strong> @Model.Gender</p>
+    <p><strong>Adresse :</strong> @Model.Address</p>
+    <p><strong>Téléphone :</strong> @Model.PhoneNumber</p>
+</div>
+
+<a asp-action="Index">Retour à la liste</a>
