@@ -16,6 +16,7 @@ namespace PatientService.Domain
         public string? LastName { get; set; }
         [DataType(DataType.Date)]
         [Display(Name = "Date de Naissance")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)] // format de date correct
         public DateTime DateOfBirth { get; set; }
         [Required, StringLength(10)]
         [Display(Name = "Genre")]
