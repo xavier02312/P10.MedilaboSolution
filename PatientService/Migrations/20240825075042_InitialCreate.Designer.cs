@@ -12,8 +12,8 @@ using PatientService.Data;
 namespace PatientService.Migrations
 {
     [DbContext(typeof(LocalDbContext))]
-    [Migration("20240822122441_UpdatePatientDateFormat")]
-    partial class UpdatePatientDateFormat
+    [Migration("20240825075042_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,23 @@ namespace PatientService.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("PatientService.Domain.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Addresses");
+                });
+
             modelBuilder.Entity("PatientService.Domain.Patient", b =>
                 {
                     b.Property<int>("Id")
@@ -33,36 +50,47 @@ namespace PatientService.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<int?>("AddressId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AddressId");
+
                     b.ToTable("Patients");
+                });
+
+            modelBuilder.Entity("PatientService.Domain.Patient", b =>
+                {
+                    b.HasOne("PatientService.Domain.Address", "Address")
+                        .WithMany("Patients")
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("PatientService.Domain.Address", b =>
+                {
+                    b.Navigation("Patients");
                 });
 #pragma warning restore 612, 618
         }

@@ -7,102 +7,145 @@ namespace PatientService.Service
 {
     public class PatientServices : IPatientServices
     {
-        private readonly IPatientRepository _repository;
+        private readonly IPatientRepository _patientRepository;
+        private readonly IAdressRepository _adressRepository;
 
-        public PatientServices(IPatientRepository repository)
+        public PatientServices(IPatientRepository patientRepository, IAdressRepository adressRepository)
         {
-            _repository = repository;
-        }
-
-        public async Task<List<PatientOutputModel>> ListAsync()
-        {
-            var list = new List<PatientOutputModel>();
-            var Patients = await _repository.ListAsync();
-
-            foreach (var Patient in Patients)
-            {
-                list.Add(ToOutputModel(Patient));
-            }
-            return list;
+            _patientRepository = patientRepository;
+            _adressRepository = adressRepository;
         }
 
         public async Task<PatientOutputModel> CreateAsync(PatientInputModel input)
         {
-            var patient = new Patient
+            try
             {
-                FirstName = input.FirstName,
-                LastName = input.LastName,
-                DateOfBirth = input.DateOfBirth,
-                Gender = input.Gender,
-                Address = input.Address,
-                PhoneNumber = input.PhoneNumber,
-            };
-            await _repository.CreateAsync(patient);
-            return ToOutputModel(patient);
+                var patients = await _patientRepository.CreateAsync(await Entity(input, 0));
+                return ToOutputModel(patients);
+            }
+            catch 
+            {
+                throw;
+            }
+        }
+ 
+        public async Task<List<PatientOutputModel>> ListAsync()
+        {
+            try
+            {
+                var list = new List<PatientOutputModel>();
+                var Patients = await _patientRepository.ListAsync();
+
+                foreach (var Patient in Patients)
+                {
+                    list.Add(ToOutputModel(Patient));
+                }
+                return list;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task<PatientOutputModel> GetByIdAsync(int id)
         {
-            var patient = await _repository.GetByIdAsync(id);
-
-            if (patient == null)
+            try
             {
+                var patient = await _patientRepository.GetByIdAsync(id);
+
+                if (patient is not null)
+                {
+                    return ToOutputModel(patient);
+                }
                 return null;
             }
-            return ToOutputModel(patient);
-        }
-
-        public PatientOutputModel? Get(int id)
-        {
-            var patient = _repository.Get(id);
-
-            if (patient is not null)
+            catch
             {
-                return ToOutputModel(patient);
+                throw;
             }
-            return null;
         }
 
         public async Task<PatientOutputModel?> UpdateAsync(int id, PatientInputModel input)
         {
-            var patient = await _repository.UpdateAsync(new Patient
+            try
             {
-                Id = input.Id,
-                FirstName = input.FirstName,
-                LastName = input.LastName,
-                DateOfBirth = input.DateOfBirth,
-                Gender = input.Gender,
-                Address = input.Address,
-                PhoneNumber = input.PhoneNumber,
-            });
+                var patientUpdated = await _patientRepository.UpdateAsync(await Entity(input, id));
 
-            if (patient is not null)
-            {
-                return ToOutputModel(patient);
+                if (patientUpdated is not null)
+                {
+                    return ToOutputModel(patientUpdated);
+                }
+                return null;
             }
-            return null;
+            catch 
+            {
+                throw;
+            }
         }
 
         public async Task<PatientOutputModel?> DeleteAsync(int id)
         {
-            var patient = await _repository.DeleteAsync(id);
-
-            if (patient is not null)
+            try
             {
+                var patient = await _patientRepository.DeleteAsync(id);
+
+                if (patient is null)
+                {
+                    return null;
+                }
                 return ToOutputModel(patient);
             }
-            return null;
+            catch
+            {
+                throw;
+            }
         }
 
-        private PatientOutputModel ToOutputModel(Patient patient) => new PatientOutputModel
+        private async Task<Patient> Entity(PatientInputModel input, int id)
         {
-            Id = patient.Id,
-            FirstName = patient.FirstName,
-            LastName = patient.LastName,
-            DateOfBirth = patient.DateOfBirth,
-            Gender = patient.Gender,
-            Address = patient.Address,
-            PhoneNumber = patient.PhoneNumber,
-        };
+            var patient = new Patient()
+            {
+                Id = id,
+                FirstName = input.FirstName,
+                LastName = input.LastName,
+                DateOfBirth = input.DateOfBirth,
+                Gender = input.Gender,
+            };
+
+            if (input.Address is not null)
+            {
+                var address = await _adressRepository.Create(new Address { Name = input.Address });
+                patient.Address = address;
+                patient.AddressId = address.Id;
+            }
+
+            if (input.PhoneNumber is not null)
+            {
+                patient.PhoneNumber = input.PhoneNumber;
+            }
+            return patient;
+        }
+        private PatientOutputModel ToOutputModel(Patient patient)
+        {
+            var output = new PatientOutputModel()
+            {
+                Id = patient.Id,
+                FirstName = patient.FirstName,
+                LastName = patient.LastName,
+                DateOfBirth = patient.DateOfBirth,
+                Gender = patient.Gender,
+            };
+
+            if (patient.Address is not null)
+            {
+                output.Address = patient.Address.Name;
+            }
+            if (patient.PhoneNumber is not null)
+            {
+                output.PhoneNumber = patient.PhoneNumber;
+            }
+            return output;
+        }
     }
 }

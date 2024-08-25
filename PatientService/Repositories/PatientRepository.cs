@@ -13,15 +13,16 @@ namespace PatientService.Repositories
             _context = context;
         }
 
-        public async Task CreateAsync(Patient patient)
+        public async Task<Patient> CreateAsync(Patient patient)
         {
             await _context.Patients.AddAsync(patient);
             await _context.SaveChangesAsync();
+            return patient;
         }
 
         public async Task<Patient?> DeleteAsync(int id)
         {
-            var Patient = await _context.Patients.FirstOrDefaultAsync(p => p.Id == id);
+            var Patient = await _context.Patients.Include(p => p.Address).FirstOrDefaultAsync(p => p.Id == id);
 
             if (Patient != null)
             {
@@ -31,25 +32,28 @@ namespace PatientService.Repositories
             return Patient;
         }
 
-        public Patient? Get(int id) => _context.Patients.FirstOrDefault(i => i.Id == id);
-
         public async Task<Patient> GetByIdAsync(int id) => await _context.Patients.FindAsync(id);
 
-        public async Task<IEnumerable<Patient>> ListAsync() => await Task.Run(() => _context.Patients.ToListAsync());
+        public async Task<List<Patient>> ListAsync() => await Task.Run(() => _context.Patients.Include(p => p.Address).ToListAsync());
 
         public async Task<Patient?> UpdateAsync(Patient patient)
         {
-            var patientModifie = await _context.Patients.FirstOrDefaultAsync(c => c.Id == patient.Id);
+            var patientModifie = await _context.Patients.Include(p => p.Address).FirstOrDefaultAsync(c => c.Id == patient.Id);
 
             if (patientModifie is not null)
             {
                 patientModifie.FirstName = patient.FirstName;
                 patientModifie.LastName = patient.LastName;
-                patientModifie.PhoneNumber = patient.PhoneNumber;
-                patientModifie.Address = patient.Address;
                 patientModifie.DateOfBirth = patient.DateOfBirth;
                 patientModifie.Gender = patient.Gender;
-
+                if (patientModifie.Address is not null)
+                {
+                    patientModifie.Address = patient.Address;
+                }
+                if (patientModifie.PhoneNumber is not null)
+                {
+                    patientModifie.PhoneNumber = patient.PhoneNumber;
+                }
                 await _context.SaveChangesAsync();
             }
             return patientModifie;
