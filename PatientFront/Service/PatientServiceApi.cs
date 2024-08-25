@@ -25,7 +25,7 @@ namespace PatientFront.Service
         // Detail un Patient
         public async Task<PatientOutputModel> GetByIdAsync(int id)
         {
-            var patient = await _httpClient.GetFromJsonAsync<PatientOutputModel>($"/Patient?id={id}");
+            var patient = await _httpClient.GetFromJsonAsync<PatientOutputModel>($"/Patient/Get?id={id}");
 
             return patient;
         }
