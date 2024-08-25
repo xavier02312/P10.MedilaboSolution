@@ -24,7 +24,7 @@ builder.Services.AddDbContext<LocalDbContext>(options =>
         .AddEntityFrameworkStores<LocalDbContext>()
         .AddDefaultTokenProviders();
 
-// JWT Bearer
+// JWT Bearer avec clé
 var jwt = builder.Configuration.GetSection("Jwt");
 var key = Encoding.ASCII.GetBytes(jwt["SecretKey"]!);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
