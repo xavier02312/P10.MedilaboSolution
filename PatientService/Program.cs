@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using PatientService.Data;
 using PatientService.Repositories;
 using PatientService.Service;
 using Serilog;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +23,45 @@ builder.Services.AddDbContext<LocalDbContext>(options =>
  builder.Services.AddIdentity<IdentityUser, IdentityRole>()
         .AddEntityFrameworkStores<LocalDbContext>()
         .AddDefaultTokenProviders();
+
+// JWT Bearer avec clé
+var jwt = builder.Configuration.GetSection("Jwt");
+var key = Encoding.ASCII.GetBytes(jwt["SecretKey"]!);
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+        };
+    });
+
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("organizer", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireRole("organizer");
+        policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
+    })
+    .AddPolicy("practitioner", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireRole("practitioner");
+        policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
+    })
+    .AddPolicy("organizerOrPractitioner", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireAssertion(context =>
+            context.User.IsInRole("organizer") || context.User.IsInRole("practitioner"));
+        policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
+    });
 
 // Serilog
 Log.Logger = new LoggerConfiguration()
@@ -59,7 +101,6 @@ using (var scope = app.Services.CreateScope())
             await seeder.EnsurePractitionerIsCreated();
             await seeder.EnsureAdminIsCreated();
         }
-
 }
 
 app.UseHttpsRedirection();
