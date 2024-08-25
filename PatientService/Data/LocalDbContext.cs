@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PatientService.Domain;
 
 namespace PatientService.Data
 {
-    public class LocalDbContext : DbContext
+    public class LocalDbContext : IdentityDbContext
     {
         public LocalDbContext(DbContextOptions<LocalDbContext> options) : base(options) { }
 
@@ -13,7 +14,7 @@ namespace PatientService.Data
 
             builder.Entity<Address>()
                 .HasMany(g => g.Patients)
-            .WithOne(g => g.Address);
+                .WithOne(g => g.Address);
 
             builder.Entity<Patient>()
                 .HasOne(p => p.Address)
