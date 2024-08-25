@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PatientService.Data;
 using PatientService.Repositories;
 using PatientService.Service;
+using Serilog;
 
 namespace PatientService
 {
@@ -20,11 +21,19 @@ namespace PatientService
 
             // Connexion BDD
             builder.Services.AddDbContext<LocalDbContext>(options =>
-                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("Patient-Gestion")));
+
+            // Serilog
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .CreateLogger();
+
+            builder.Services.AddHttpContextAccessor();
 
             // Service configuration
             builder.Services.AddScoped<IPatientRepository, PatientRepository>();
             builder.Services.AddScoped<IPatientServices, PatientServices>();
+            builder.Services.AddScoped<IAdressRepository, AdressRepository>();
 
             var app = builder.Build();
 

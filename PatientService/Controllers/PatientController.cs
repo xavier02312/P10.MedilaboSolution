@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PatientService.Models.InputModels;
 using PatientService.Service;
+using Serilog;
 
 namespace PatientService.Controllers
 {
@@ -16,190 +17,99 @@ namespace PatientService.Controllers
             _patientService = patientService;
         }
 
-        /// <summary>
-        /// GET: PatientController
-        /// </summary>
-        /// <returns>200</returns>
         [HttpGet]
         [Route("list")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Get()
         {
             try
             {
-                var patients = await _patientService.ListAsync();
-                if (patients == null || !patients.Any())
-                {
-                    return NotFound("Aucun patient trouvé");
-                }
-                return Ok(patients);
+                return Ok(await _patientService.ListAsync());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, "Une erreur interne s'est produite");
+                Log.Error($"{ex.StackTrace} : {ex.Message}");
+                return Problem();
             }
         }
 
-        /// <summary>
-        /// POST: PatientController
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns>201</returns>
         [HttpPost]
         [Route("Ajout")]
-        public async Task<IActionResult> AddPatient([FromBody] PatientInputModel input)
+        public async Task<IActionResult> CreateAsync([FromBody] PatientInputModel input)
         {
             try
             {
-                var result = await _patientService.CreateAsync(input);
-                return CreatedAtAction(nameof(GetPatientById), new { id = result.Id }, result);
+                return Ok(await _patientService.CreateAsync(input));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, "Une erreur interne s'est produite");
+                Log.Error($"{ex.StackTrace} : {ex.Message}");
+                return Problem();
             }
         }
 
-        /// <summary>
-        /// GET: PatientController/{id}
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>200 ok</returns>
-        /// <returns>404 Si pas trouver</returns>
         [HttpGet]
-        public async Task<IActionResult> GetPatientById(int id)
+        [Route("Get")]
+        public async Task<IActionResult> GetByIdAsync([FromQuery] int id)
         {
-            var patient = await _patientService.GetByIdAsync(id);
-
-            if (patient == null)
+            try
             {
-                return NotFound("Patient introuvable");
+                var patient = await _patientService.GetByIdAsync(id);
+
+                if (patient is not null)
+                {
+                    return Ok(patient);
+                }
+                return NotFound();
             }
-            return Ok(patient);
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.StackTrace} : {ex.Message}");
+                return Problem();
+            }
         }
 
-        /// <summary>
-        /// GET: PatientController/{id}
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="input"></param>
-        /// <returns>200</returns>
         [HttpPut]
         [Route("update")]
-        public async Task<IActionResult> UpdatePatientId([FromQuery] int id, [FromBody] PatientInputModel input)
+        public async Task<IActionResult> UpdateAsync([FromQuery] int id, [FromBody] PatientInputModel input)
         {
             try
             {
                 var patient = await _patientService.UpdateAsync(id, input);
 
-                if (patient == null)
+                if (patient is not null)
                 {
-                    return NotFound("Patient introuvable");
+                    return Ok(patient);
                 }
 
-                var updatedPatients = await _patientService.ListAsync();
-                return Ok(updatedPatients);
+                return NotFound();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, "Une erreur interne s'est produite");
+                Log.Error($"{ex.StackTrace} : {ex.Message}");
+                return Problem();
             }
         }
 
-        /// <summary>
-        /// DELETE: PatientController/{id}
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>200</returns>
         [HttpDelete]
         [Route("delete")]
-        public async Task<IActionResult> DeletePatientById([FromQuery] int id)
+        public async Task<IActionResult> DeleteAsync([FromQuery] int id)
         {
             try
             {
                 var patient = await _patientService.DeleteAsync(id);
 
-                if (patient == null)
+                if (patient is not null)
                 {
-                    return NotFound("Patient introuvable");
+                    return Ok(patient);
                 }
 
-                var updatedPatients = await _patientService.ListAsync();
-                return Ok(updatedPatients);
+                return NotFound();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, "Une erreur interne s'est produite");
-            }
-
-        }
-
-        /*// GET: PatientController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: PatientController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: PatientController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
+                Log.Error($"{ex.StackTrace} : {ex.Message}");
+                return Problem();
             }
         }
-
-        // GET: PatientController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: PatientController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: PatientController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: PatientController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }*/
     }
 }

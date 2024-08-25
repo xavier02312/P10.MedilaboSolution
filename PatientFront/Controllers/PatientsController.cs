@@ -68,7 +68,6 @@ namespace PatientFront.Controllers
 
             var inputModel = new PatientInputModel
             {
-                Id = patient.Id,
                 FirstName = patient.FirstName,
                 LastName = patient.LastName,
                 DateOfBirth = patient.DateOfBirth,
