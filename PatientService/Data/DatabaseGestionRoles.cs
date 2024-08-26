@@ -47,9 +47,9 @@ namespace PatientService.Data
             };
             if (!await _roleManager.RoleExistsAsync("practitioner"))
             {
-                await _roleManager.CreateAsync(new IdentityRole("practitioner"));
+                await _roleManager.CreateAsync(new IdentityRole("practitioner"));/**/
             }
-            var result = await _userManager.CreateAsync(user, "6yb64nOav4M?JmHzn");
+            var result = await _userManager.CreateAsync(user, "6yb64nOav4M?JmHzn");/**/
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "practitioner");
