@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PatientService.Models.InputModels;
 using PatientService.Service;
 using Serilog;
@@ -34,6 +35,7 @@ namespace PatientService.Controllers
 
         [HttpPost]
         [Route("Ajout")]
+        [Authorize("organizer")]
         public async Task<IActionResult> CreateAsync([FromBody] PatientInputModel input)
         {
             try
@@ -49,6 +51,7 @@ namespace PatientService.Controllers
 
         [HttpGet]
         [Route("Get")]
+        [Authorize("organizerOrPractitioner")]
         public async Task<IActionResult> GetByIdAsync([FromQuery] int id)
         {
             try
@@ -70,6 +73,7 @@ namespace PatientService.Controllers
 
         [HttpPut]
         [Route("update")]
+        [Authorize("organizer")]
         public async Task<IActionResult> UpdateAsync([FromQuery] int id, [FromBody] PatientInputModel input)
         {
             try
@@ -92,6 +96,7 @@ namespace PatientService.Controllers
 
         [HttpDelete]
         [Route("delete")]
+        [Authorize("organizer")]
         public async Task<IActionResult> DeleteAsync([FromQuery] int id)
         {
             try
