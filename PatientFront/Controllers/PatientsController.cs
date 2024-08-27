@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PatientFront.Service;
-using PatientService.Domain;
 using PatientService.Models.InputModels;
-using PatientService.Models.OutputModels;
 
 namespace PatientFront.Controllers
 {
@@ -33,7 +31,7 @@ namespace PatientFront.Controllers
             }
             return View(patient);
         }
-        // GET: Voitures/Create
+        // GET: 
         // Action pour afficher le formulaire de création de patient
         public IActionResult Ajout()
         {
