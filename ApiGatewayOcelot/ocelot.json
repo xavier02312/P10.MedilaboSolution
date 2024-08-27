@@ -27,7 +27,7 @@
       "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "UpstreamPathTemplate": "/gateway/Patient/get?id={id}", 
+      "UpstreamPathTemplate": "/gateway/Patient/get?id={id}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/Patient/Get?id={id}",
       "DownstreamScheme": "https",
@@ -55,7 +55,20 @@
     {
       "UpstreamPathTemplate": "/gateway/Patient/delete?id={id}",
       "UpstreamHttpMethod": [ "Delete" ],
-      "DownstreamPathTemplate": "/Patient/delete?id={id}", // Non HTTP ERROR 405
+      "DownstreamPathTemplate": "/Patient/delete?id={id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7239
+        }
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/Authentication/Login",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/Authentication/Login",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {

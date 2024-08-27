@@ -1,5 +1,4 @@
 using PatientFront.Service;
-using PatientService.Repositories;
 
 namespace PatientFront
 {
@@ -12,8 +11,14 @@ namespace PatientFront
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            // Configuration de HttpClient
+            // Configuration de HttpClient 
+
             builder.Services.AddHttpClient<PatientServiceApi>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:7239"); // Adresse PatientService launchSettings.json
+            });
+
+            builder.Services.AddHttpClient<AuthenticationLogin>(client =>
             {
                 client.BaseAddress = new Uri("https://localhost:7239"); // Adresse PatientService launchSettings.json
             });
