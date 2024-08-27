@@ -1,4 +1,4 @@
-﻿using PatientService.Models.InputModels;
+using PatientService.Models.InputModels;
 using PatientService.Models.OutputModels;
 
 namespace PatientFront.Service
@@ -38,6 +38,7 @@ namespace PatientFront.Service
         }
         // Modifier un Patient
         public async Task<PatientOutputModel> UpdatePatientAsync(int id, PatientInputModel input) 
+
         {
             var response = await _httpClient.PutAsJsonAsync($"/Patient/update?id={id}", input);
             response.EnsureSuccessStatusCode();

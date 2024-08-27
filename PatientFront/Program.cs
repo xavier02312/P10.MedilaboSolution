@@ -12,6 +12,7 @@ namespace PatientFront
             builder.Services.AddControllersWithViews();
 
             // Configuration de HttpClient 
+
             builder.Services.AddHttpClient<PatientServiceApi>(client =>
             {
                 client.BaseAddress = new Uri("https://localhost:7239"); // Adresse PatientService launchSettings.json
