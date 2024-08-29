@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "UpstreamPathTemplate": "/gateway/Patient/list",
+      "UpstreamPathTemplate": "/gateway/Patient/list", 
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/Patient/list",
       "DownstreamScheme": "https",
@@ -14,7 +14,7 @@
       "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "UpstreamPathTemplate": "/gateway/Patient/Ajout",
+      "UpstreamPathTemplate": "/gateway/Patient/Ajout", 
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/Patient/Ajout",
       "DownstreamScheme": "https",
@@ -54,7 +54,7 @@
       }
     },
     {
-      "UpstreamPathTemplate": "/gateway/Patient/update?id={id}",
+      "UpstreamPathTemplate": "/gateway/Patient/update?id={id}", 
       "UpstreamHttpMethod": [ "Put" ],
       "DownstreamPathTemplate": "/Patient/update?id={id}",
       "DownstreamScheme": "https",
