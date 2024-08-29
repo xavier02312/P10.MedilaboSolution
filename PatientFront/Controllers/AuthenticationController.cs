@@ -18,14 +18,14 @@ namespace PatientFront.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(LoginModel loginModel)
+        public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
         {
-            var token = await _authenticationLogin.Login(loginModel);
+            var token = await _authenticationLogin.Login(loginModel.Username, loginModel.Password);
 
             if (!string.IsNullOrEmpty(token))
             {
                 // Stocker le token dans un cookie ou une session
-                HttpContext.Session.SetString("JWToken", token);
+                HttpContext.Session.SetString("Jwt", token);
 
                 return RedirectToAction("Index", "Patients");
             }
