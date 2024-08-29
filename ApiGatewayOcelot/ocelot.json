@@ -24,7 +24,14 @@
           "Port": 7239
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "role": "organizer"
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/Patient/get?id={id}",
@@ -37,7 +44,14 @@
           "Port": 7239
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "role": "organizerOrPractitioner"
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/Patient/update?id={id}",
@@ -50,7 +64,14 @@
           "Port": 7239
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "role": "organizer"
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/Patient/delete?id={id}",
@@ -63,7 +84,14 @@
           "Port": 7239
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "role": "organizer"
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/Authentication/Login",
@@ -76,7 +104,11 @@
           "Port": 7239
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     }
   ],
   "GlobalConfiguration": {
