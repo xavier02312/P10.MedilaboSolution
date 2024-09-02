@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using System.Text;
 
 namespace ApiGatewayOcelot
 {
@@ -16,6 +19,23 @@ namespace ApiGatewayOcelot
             builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
             builder.Services.AddOcelot();
 
+            // Récupère la clé secrète JWT depuis la configuration
+            var jwtSection = builder.Configuration.GetSection("Jwt");
+            var key = jwtSection.GetValue<string>("SecretKey");
+
+            // Adding authentication scheme
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -26,13 +46,13 @@ namespace ApiGatewayOcelot
                 app.UseHsts();
             }
             // Configure et active Ocelot
-            app.UseOcelot();
+            app.UseOcelot().Wait();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapRazorPages();
