@@ -20,7 +20,7 @@ namespace PatientFront.Service
             try
             {
                 var loginModel = new LoginModel { Username = username, Password = password };
-                var connection = await _httpClient.PostAsJsonAsync("/Authentication/Login", loginModel);
+                var connection = await _httpClient.PostAsJsonAsync("{{BaseUrl}}/Authentication/Login", loginModel);
                 connection.EnsureSuccessStatusCode();
 
                 var responseContent = await connection.Content.ReadAsStringAsync();

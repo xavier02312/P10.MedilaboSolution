@@ -104,11 +104,7 @@
           "Port": 7239
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true,
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      }
+      "DangerousAcceptAnyServerCertificateValidator": true
     }
   ],
   "GlobalConfiguration": {
