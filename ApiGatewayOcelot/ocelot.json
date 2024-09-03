@@ -24,14 +24,7 @@
           "Port": 7239
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true,
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "RouteClaimsRequirement": {
-        "role": "organizer"
-      }
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/gateway/Patient/get?id={id}",
@@ -44,14 +37,7 @@
           "Port": 7239
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true,
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "RouteClaimsRequirement": {
-        "role": "organizerOrPractitioner"
-      }
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/gateway/Patient/update?id={id}", 
@@ -64,14 +50,7 @@
           "Port": 7239
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true,
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "RouteClaimsRequirement": {
-        "role": "organizer"
-      }
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/gateway/Patient/delete?id={id}",
@@ -84,14 +63,7 @@
           "Port": 7239
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true,
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "RouteClaimsRequirement": {
-        "role": "organizer"
-      }
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/gateway/Authentication/Login",

@@ -22,7 +22,7 @@ namespace PatientFront.Controllers
         {
             var token = await _authenticationLogin.Login(loginModel.Username, loginModel.Password);
 
-            if (!string.IsNullOrEmpty(token))
+            if (token != "")
             {
                 // Stocker le token dans un cookie ou une session
                 HttpContext.Session.SetString("Jwt", token);
@@ -32,6 +32,13 @@ namespace PatientFront.Controllers
 
             ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             return View(loginModel);
+        }
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("Index", "Patients");
         }
     }
 }

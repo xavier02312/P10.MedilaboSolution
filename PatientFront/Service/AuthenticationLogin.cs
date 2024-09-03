@@ -1,7 +1,5 @@
 ﻿using PatientService.Models;
 using PatientService.Service;
-using System.Net.Http.Headers;
-using System.Text.Json;
 
 namespace PatientFront.Service
 {
@@ -9,27 +7,31 @@ namespace PatientFront.Service
     {
         private readonly HttpClient _httpClient;
         private readonly ILogger<AuthenticationLogin> _logger;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthenticationLogin(HttpClient httpClient, ILogger<AuthenticationLogin> logger)
+        public AuthenticationLogin(HttpClient httpClient, ILogger<AuthenticationLogin> logger, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;
+            _httpClient.BaseAddress = new Uri("https://localhost:7202");
             _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<string> Login(string username, string password)
         {
             try
             {
                 var loginModel = new LoginModel { Username = username, Password = password };
-                var connection = await _httpClient.PostAsJsonAsync("{{BaseUrl}}/Authentication/Login", loginModel);
+
+                var connection = await _httpClient.PostAsJsonAsync("/Authentication/Login", loginModel);
                 connection.EnsureSuccessStatusCode();
-
+                
                 var responseContent = await connection.Content.ReadAsStringAsync();
-                var tokenResponse = JsonSerializer.Deserialize<TokenResponse>(responseContent);
 
-                if (tokenResponse != null && !string.IsNullOrEmpty(tokenResponse.Token))
+                if (responseContent != null && !string.IsNullOrEmpty(responseContent))
                 {
-                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse.Token);
-                    return tokenResponse.Token;
+                    // Stocker le token dans la session
+                    _httpContextAccessor.HttpContext.Session.SetString("Jwt", responseContent);
+                    return responseContent;
                 }
             }
             catch (Exception ex)
@@ -38,10 +40,6 @@ namespace PatientFront.Service
             }
 
             return string.Empty;
-        }
-        public class TokenResponse
-        {
-            public string Token { get; set; }
         }
     }
 }
