@@ -4,7 +4,11 @@ using PatientService.Service;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddViewOptions(option =>
+    {
+        option.HtmlHelperOptions.ClientValidationEnabled = true;
+    });
 
 // Ajout du cache en mémoire distribué
 builder.Services.AddDistributedMemoryCache();
@@ -21,13 +25,11 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient<PatientServiceApi>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:7239"); // Adresse PatientService launchSettings.json
-    //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 });
 
 builder.Services.AddHttpClient<AuthenticationLogin>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:7239"); // Adresse PatientService launchSettings.json
-    //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 });
 
 // Enregistrement du service IAuthenticationServices
