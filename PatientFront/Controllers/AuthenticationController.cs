@@ -18,19 +18,22 @@ namespace PatientFront.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
+        public async Task<IActionResult> Login([FromForm] LoginModel loginModel)
         {
-            var token = await _authenticationLogin.Login(loginModel.Username, loginModel.Password);
-
-            if (token != "")
+            if (ModelState.IsValid)
             {
-                // Stocker le token dans un cookie ou une session
-                HttpContext.Session.SetString("Jwt", token);
+                var token = await _authenticationLogin.Login(loginModel.Username, loginModel.Password);
 
-                return RedirectToAction("Index", "Patients");
+                if (token != "")
+                {
+                    // Stocker le token dans un cookie ou une session
+                    HttpContext.Session.SetString("Jwt", token);
+
+                    return RedirectToAction("Index", "Patients");
+                }
+
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
-
-            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             return View(loginModel);
         }
         [HttpGet]
