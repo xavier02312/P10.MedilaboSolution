@@ -1,6 +1,4 @@
-﻿
-@model PatientService.Models.LoginModel
-
+﻿@model PatientService.Models.LoginModel
 @{
     ViewData["Title"] = "Connexion";
 }
@@ -18,9 +16,5 @@
         <input asp-for="Password" type="password" class="form-control" />
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary" form="form1">Se connecter</button>
+    <button type="submit" class="btn btn-primary">Se connecter</button>
 </form>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
