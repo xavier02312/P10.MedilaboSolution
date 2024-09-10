@@ -15,10 +15,10 @@ namespace PatientFront.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return View();
+            return View(new LoginModel());
         }
         [HttpPost]
-        public async Task<IActionResult> Login([FromForm] LoginModel loginModel)
+        public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
         {
             if (ModelState.IsValid)
             {
