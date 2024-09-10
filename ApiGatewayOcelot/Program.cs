@@ -1,63 +1,67 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
-using System.Text;
 
-namespace ApiGatewayOcelot
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+// Configure Cors
+builder.Services.AddCors(options =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
+    var PatientFrontUrl = builder.Configuration.GetValue<string>("PatientFrontUrl");
+    var PatientServiceUrl = builder.Configuration.GetValue<string>("PatientServiceUrl");
+    var PatientNoteUrl = builder.Configuration.GetValue<string>("PatientNoteUrl");
+    options.AddPolicy("CorsPolicy",
+        policy =>
         {
-            var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container.
-            builder.Services.AddRazorPages();
-
-            // Add ocelot configuration file and injecting ocelot service
-            builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
-            builder.Services.AddOcelot();
-
-            // Récupère la clé secrète JWT depuis la configuration
-            var jwtSection = builder.Configuration.GetSection("Jwt");
-            var key = jwtSection.GetValue<string>("SecretKey");
-
-            // Adding authentication scheme
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
+            if (!string.IsNullOrEmpty(PatientFrontUrl))
             {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
-
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                policy.WithOrigins(PatientFrontUrl);
             }
-            // Configure et active Ocelot
-            app.UseOcelot().Wait();
+            if (!string.IsNullOrEmpty(PatientServiceUrl))
+            {
+                policy.WithOrigins(PatientServiceUrl);
+            }
+            if (!string.IsNullOrEmpty(PatientNoteUrl))
+            {
+                policy.WithOrigins(PatientNoteUrl);
+            }
+            policy.AllowAnyMethod();
+            policy.AllowAnyHeader();
+            policy.AllowCredentials();
+        });
+});
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
+// Configure health checks
+builder.Services
+    .AddHealthChecks()
+    .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
 
-            app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
+// Add Ocelot
+builder.Services.AddOcelot(builder.Configuration);
 
-            app.MapRazorPages();
+// Add Ocelot json file configuration
+builder.Configuration.AddJsonFile("ocelot.json");
 
-            app.Run();
-        }
-    }
-}
+WebApplication app = builder.Build();
+
+app.UseRouting();
+app.UseCors("CorsPolicy");
+app.UseAuthorization();
+app.UseEndpoints(_ => { });
+
+// Map health check endpoints
+app.MapHealthChecks("/hc", new HealthCheckOptions()
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+});
+
+app.MapHealthChecks("/liveness", new HealthCheckOptions
+{
+    Predicate = r => r.Name.Contains("self")
+});
+
+await app.UseOcelot();
+await app.RunAsync();

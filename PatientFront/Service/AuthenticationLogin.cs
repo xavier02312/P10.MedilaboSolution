@@ -29,8 +29,15 @@ namespace PatientFront.Service
 
                 if (responseContent != null && !string.IsNullOrEmpty(responseContent))
                 {
-                    // Stocker le token dans la session
-                    _httpContextAccessor.HttpContext.Session.SetString("Jwt", responseContent);
+                    // Stocker le token dans un cookie
+                    var cookieOptions = new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Secure = true,
+                        Expires = DateTime.UtcNow.AddDays(7) // Définir la durée de vie du cookie
+                    };
+                    _httpContextAccessor.HttpContext.Response.Cookies.Append("Jwt", responseContent, cookieOptions);
+
                     return responseContent;
                 }
             }
