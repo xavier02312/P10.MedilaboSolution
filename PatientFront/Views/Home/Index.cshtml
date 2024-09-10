@@ -2,6 +2,13 @@
     ViewData["Title"] = "MédiLabo Solutions";
 }
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 <div class="text-center">
     <h1 class="display-4">MédiLabo Solutions</h1>
     <p>We care for you</p>
