@@ -10,6 +10,15 @@ builder.Services.AddControllersWithViews()
         option.HtmlHelperOptions.ClientValidationEnabled = true;
     });
 
+// Ajout du cache en mémoire distribué
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Durée de la session
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 // Ajouter IHttpContextAccessor
 builder.Services.AddHttpContextAccessor();
 
@@ -42,6 +51,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+// Ajout de l'utilisation des sessions pour le token
+app.UseSession();
 
 app.UseAuthorization();
 
