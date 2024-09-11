@@ -35,8 +35,8 @@ namespace PatientFront.Controllers
                     };
                     _httpContextAccessor.HttpContext.Response.Cookies.Append("Jwt", token, cookieOptions);
 
-                    // Message de connexion
-                    TempData["SuccessMessage"] = "Connexion réussie ! Bienvenue.";
+                    // Message de connexion avec le nom de l'utilisateur
+                    TempData["SuccessMessage"] = $"Connexion réussie ! Bienvenue, { model.Username}.";
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -46,6 +46,9 @@ namespace PatientFront.Controllers
         }
         public IActionResult Logout()
         {
+            // Récupérer le nom de l'utilisateur à partir des revendications
+            var userName = User.Identity.IsAuthenticated ? User.Identity.Name : "Utilisateur";
+
             HttpContext.Session.Clear();
 
             // Supprimer le cookie JWT
@@ -58,7 +61,7 @@ namespace PatientFront.Controllers
                 HttpContext.Response.Cookies.Append("Jwt", "", cookieOptions);
             }
 
-            TempData["SuccessMessage"] = "Déconnexion réussie.";
+            TempData["SuccessMessage"] = $"Déconnexion réussie, {userName}.";
 
             return RedirectToAction("Index", "Home");
         }

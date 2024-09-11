@@ -1,5 +1,6 @@
 using PatientFront.Service;
 using PatientService.Service;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,15 @@ builder.Services.AddControllersWithViews()
     {
         option.HtmlHelperOptions.ClientValidationEnabled = true;
     });
+
+// Ajout du cache en mémoire distribué
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Durée de la session
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 // Ajouter IHttpContextAccessor
 builder.Services.AddHttpContextAccessor();
@@ -27,6 +37,13 @@ builder.Services.AddHttpClient<AuthenticationLogin>(client =>
 // Enregistrement du service IAuthenticationServices
 builder.Services.AddScoped<IAuthenticationServices, AuthenticationLogin>();
 
+// Configuration de l'authentification par cookies
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Login/Index";
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -42,6 +59,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+// Ajout de l'utilisation des sessions pour le token
+app.UseSession();
 
 app.UseAuthorization();
 

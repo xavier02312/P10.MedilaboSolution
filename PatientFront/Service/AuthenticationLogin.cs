@@ -1,5 +1,4 @@
-﻿using PatientService.Models;
-using PatientService.Service;
+﻿using PatientService.Service;
 
 namespace PatientFront.Service
 {
@@ -15,6 +14,7 @@ namespace PatientFront.Service
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
         }
+        // Connexion
         public async Task<string> Login(string username, string password)
         {
             try
@@ -22,7 +22,7 @@ namespace PatientFront.Service
                 var connection = await _httpClient.PostAsJsonAsync("/Authentication/Login", 
                     new { Username = username, Password = password });
                 connection.EnsureSuccessStatusCode();
-                
+
                 var responseContent = await connection.Content.ReadAsStringAsync();
 
                 if (responseContent != null && !string.IsNullOrEmpty(responseContent))
