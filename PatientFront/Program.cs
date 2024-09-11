@@ -1,5 +1,6 @@
 using PatientFront.Service;
 using PatientService.Service;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,13 @@ builder.Services.AddHttpClient<AuthenticationLogin>(client =>
 
 // Enregistrement du service IAuthenticationServices
 builder.Services.AddScoped<IAuthenticationServices, AuthenticationLogin>();
+
+// Configuration de l'authentification par cookies
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Login/Index";
+    });
 
 var app = builder.Build();
 
