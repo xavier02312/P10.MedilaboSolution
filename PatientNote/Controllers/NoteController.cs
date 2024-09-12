@@ -6,7 +6,7 @@ using Serilog;
 
 namespace PatientNote.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     [Authorize("practitioner")]
     public class NoteController : ControllerBase
