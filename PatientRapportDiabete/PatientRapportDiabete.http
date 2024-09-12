@@ -1,0 +1,6 @@
+@PatientRapportDiabete_HostAddress = http://localhost:5072
+
+GET {{PatientRapportDiabete_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
