@@ -9,7 +9,7 @@ namespace PatientRapportDiabete.Service
         private readonly HttpClient _httpClient;
         public PatientService(HttpClient httpClient)
         {
-            httpClient.BaseAddress = new Uri("https://localhost:7202");
+            httpClient.BaseAddress = new Uri("https://localhost:7234");
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
