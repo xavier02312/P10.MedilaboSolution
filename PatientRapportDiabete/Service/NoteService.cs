@@ -9,7 +9,7 @@ namespace PatientRapportDiabete.Service
         private readonly HttpClient _httpClient;
         public NoteService(HttpClient httpClient)
         {
-            httpClient.BaseAddress = new Uri("https://localhost:7202");
+            httpClient.BaseAddress = new Uri("https://localhost:7078");
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
@@ -22,7 +22,7 @@ namespace PatientRapportDiabete.Service
             try
             {
                 // Effectuer la requête GET
-                HttpResponseMessage response = await _httpClient.GetAsync($"gateway/notes?patientId={patientId}");
+                HttpResponseMessage response = await _httpClient.GetAsync($"/Note/GetNotes?patientId={patientId}");
 
                 if (response.IsSuccessStatusCode)
                 {

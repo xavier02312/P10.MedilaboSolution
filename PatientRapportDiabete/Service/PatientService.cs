@@ -9,7 +9,7 @@ namespace PatientRapportDiabete.Service
         private readonly HttpClient _httpClient;
         public PatientService(HttpClient httpClient)
         {
-            httpClient.BaseAddress = new Uri("https://localhost:7234");
+            httpClient.BaseAddress = new Uri("https://localhost:7239");
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
@@ -22,7 +22,7 @@ namespace PatientRapportDiabete.Service
             try
             {
                 // Effectuer la requête GET
-                HttpResponseMessage response = await _httpClient.GetAsync($"/gateway/Patient/get?id={id}");
+                HttpResponseMessage response = await _httpClient.GetAsync($"/Patient/get?id={id}");
 
                 if (response.IsSuccessStatusCode)
                 {

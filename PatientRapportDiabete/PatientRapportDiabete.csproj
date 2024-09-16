@@ -1,9 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	  <RootNamespace>PatientRapportDiabete</RootNamespace>
+	  <UserSecretsId>ad33e84d-7f0e-4e35-a5a2-34a846e761bd</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
