@@ -1,9 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	  <RootNamespace>PatientService</RootNamespace>
+	  <UserSecretsId>0a4863a4-fb6c-4efd-9b23-e542ccf85041</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

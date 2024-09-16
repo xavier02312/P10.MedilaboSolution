@@ -11,7 +11,7 @@ namespace PatientNote.Data
         protected override void OnModelCreating(ModelBuilder model)
         {
             base.OnModelCreating(model);
-            model.Entity<Note>().ToCollection("notes");
+            model.Entity<Note>().ToCollection("Note");
         }
     }
 }

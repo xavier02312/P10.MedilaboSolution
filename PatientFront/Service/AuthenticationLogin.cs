@@ -23,7 +23,7 @@ namespace PatientFront.Service
                     new { Username = username, Password = password });
                 connection.EnsureSuccessStatusCode();
 
-                var responseContent = await connection.Content.ReadAsStringAsync();
+                var responseContent = await connection.Content.ReadAsStringAsync();/*... */
 
                 if (responseContent != null && !string.IsNullOrEmpty(responseContent))
                 {

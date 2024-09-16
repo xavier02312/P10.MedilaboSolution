@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	  <RootNamespace>PatientNote</RootNamespace>
+	  <UserSecretsId>98f24679-cdee-48ed-8100-57a547835050</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
