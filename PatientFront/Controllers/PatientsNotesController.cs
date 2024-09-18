@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PatientFront.Service;
 using PatientNote.Models.InputModels;
-using PatientService.Domain;
 using Serilog;
 
 namespace PatientFront.Controllers
@@ -14,7 +13,7 @@ namespace PatientFront.Controllers
             _patientNoteService = patientNoteService;
         }
         [HttpGet]
-        public async Task<IActionResult> Index(int patientId)/* ... */
+        public async Task<IActionResult> Index(int patientId)
         {
             try
             {
@@ -35,13 +34,9 @@ namespace PatientFront.Controllers
         // GET: 
         // Action pour afficher le formulaire de création d'une note à un patient
         [HttpGet]
-        public IActionResult Ajout(int patientId)
+        public IActionResult Ajout()
         {
-            var noteModel = new NoteInputModel
-            {
-                PatientId = patientId
-            };
-            return View(noteModel);
+            return View();
         }
         [HttpPost]
         public async Task<IActionResult> Ajout([Bind("PatientId","Content")] NoteInputModel noteModel)
@@ -51,7 +46,7 @@ namespace PatientFront.Controllers
                 if (ModelState.IsValid)
                 {
                     await _patientNoteService.Create(noteModel);
-                    return RedirectToAction("Index", "PatientsNotes");
+                    return RedirectToAction("Index", "Patients");
                 }
                 return RedirectToAction(nameof(Index));
             }
