@@ -1,4 +1,7 @@
 ﻿using PatientService.Service;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace PatientFront.Service
 {
@@ -10,6 +13,9 @@ namespace PatientFront.Service
 
         public AuthenticationLogin(HttpClient httpClient, ILogger<AuthenticationLogin> logger, IHttpContextAccessor httpContextAccessor)
         {
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
             _httpClient = httpClient;
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
@@ -23,12 +29,14 @@ namespace PatientFront.Service
                     new { Username = username, Password = password });
                 connection.EnsureSuccessStatusCode();
 
-                var responseContent = await connection.Content.ReadAsStringAsync();/*... */
+                var responseContent = await connection.Content.ReadAsStringAsync();
 
-                if (responseContent != null && !string.IsNullOrEmpty(responseContent))
-                {
-                    return responseContent;
-                }
+                var tokenObject = JsonSerializer.Deserialize<Dictionary<string, string>>(responseContent);
+                var token = tokenObject["value"];
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                return token;
             }
             catch (Exception ex)
             {
@@ -36,6 +44,18 @@ namespace PatientFront.Service
             }
 
             return string.Empty;
+        }
+        // Déconnexion
+        public async Task<string> GetUserNameFromTokenAsync(string token)
+        {
+            return await Task.Run(() =>
+            {
+                var handler = new JwtSecurityTokenHandler();
+                var jwtToken = handler.ReadJwtToken(token);
+                var userNameClaim = jwtToken.Claims.FirstOrDefault(claim => claim.Type == "unique_name");
+
+                return userNameClaim?.Value ?? "Utilisateur";
+            });
         }
     }
 }

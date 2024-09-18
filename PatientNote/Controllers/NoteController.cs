@@ -8,7 +8,6 @@ namespace PatientNote.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize("practitioner")]
     public class NoteController : ControllerBase
     {
         private readonly INoteService _noteService;
@@ -18,6 +17,7 @@ namespace PatientNote.Controllers
         }
         [HttpPost]
         [Route("Create")]
+        [Authorize("practitioner")]
         public async Task<IActionResult> Create([FromBody] NoteInputModel inputModel)
         {
             try
@@ -33,6 +33,7 @@ namespace PatientNote.Controllers
 
         [HttpGet]
         [Route("GetNotes")]
+        [Authorize("practitioner")]
         public async Task<IActionResult> GetNotes([FromQuery] int patientId)
         {
             try

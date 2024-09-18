@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PatientNote\PatientNote.csproj" />
     <ProjectReference Include="..\PatientService\PatientService.csproj" />
   </ItemGroup>
 
