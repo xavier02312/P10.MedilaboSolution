@@ -10,5 +10,11 @@
         public int? AddressId { get; set; }
         public Address? Address { get; set; }
         public string? PhoneNumber { get; set; }
+
+        // Permet d'avoir le format "yyyy/MM/dd 
+        public string GetFormattedDateOfBirth()
+        {
+            return DateOfBirth.ToString("yyyy/MM/dd");
+        }
     }
 }

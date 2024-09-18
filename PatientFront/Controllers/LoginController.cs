@@ -44,10 +44,17 @@ namespace PatientFront.Controllers
             }
             return View(model);
         }
-        public IActionResult Logout()
+        [HttpPost]
+        public async Task<IActionResult> Logout()
         {
-            // Récupérer le nom de l'utilisateur à partir des revendications
-            var userName = User.Identity.IsAuthenticated ? User.Identity.Name : "Utilisateur";
+            // Récupérer le token JWT depuis le cookie
+            var token = HttpContext.Request.Cookies["Jwt"];
+            var userName = "Utilisateur";
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                userName = await _authenticationLogin.GetUserNameFromTokenAsync(token);
+            }
 
             HttpContext.Session.Clear();
 

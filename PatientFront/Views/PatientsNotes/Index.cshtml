@@ -1,0 +1,30 @@
+﻿@model IEnumerable<PatientNote.Models.OutputModels.NoteOutputModel>
+
+
+@{
+    ViewData["Title"] = "Notes du Patient";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>PatientId</th>
+            <th>Content</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var note in Model)
+        {
+            <tr>
+                <td>@note.Id</td>
+                <td>@note.PatientId</td>
+                <td>@note.Content</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" asp-controller="Patients" class="btn btn-primary">Accueil</a>

@@ -1,6 +1,7 @@
 using PatientFront.Service;
 using PatientService.Service;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,10 @@ builder.Services.AddHttpClient<AuthenticationLogin>(client =>
     client.BaseAddress = new Uri("https://localhost:7239"); // Adresse PatientService launchSettings.json
 });
 
+builder.Services.AddHttpClient<PatientNoteService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7078"); // Adress PatientNote launchSettings.json
+});
 // Enregistrement du service IAuthenticationServices
 builder.Services.AddScoped<IAuthenticationServices, AuthenticationLogin>();
 
@@ -43,6 +48,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/Login/Index";
     });
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateLogger();
 
 var app = builder.Build();
 
