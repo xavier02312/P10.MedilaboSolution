@@ -1,5 +1,6 @@
 ﻿using PatientNote.Models.InputModels;
 using PatientNote.Models.OutputModels;
+using Serilog;
 using System.Net.Http.Headers;
 
 namespace PatientFront.Service
@@ -42,7 +43,7 @@ namespace PatientFront.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error creating patient note");
+                Log.Error(ex, "Error creating patient note");
                 throw;
             }
         }
@@ -63,7 +64,7 @@ namespace PatientFront.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error fetching patient notes");
+                Log.Error(ex, "Error fetching patient notes");
                 return null;
             }
         }

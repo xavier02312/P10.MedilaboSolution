@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PatientFront.Service;
 using PatientService.Models;
+using Serilog;
 
 namespace PatientFront.Controllers
 {
@@ -23,54 +24,70 @@ namespace PatientFront.Controllers
         {
             if (ModelState.IsValid)
             {
-                var token = await _authenticationLogin.Login(model.Username, model.Password);
-                if (token != null)
+                try
                 {
-                    // JWT dans le header
-                    var cookieOptions = new CookieOptions
+                    var token = await _authenticationLogin.Login(model.Username, model.Password);
+                    if (token != null)
                     {
-                        HttpOnly = true,
-                        Secure = true,
-                        Expires = DateTime.UtcNow.AddDays(1) // Définir la durée de vie du cookie
-                    };
-                    _httpContextAccessor.HttpContext.Response.Cookies.Append("Jwt", token, cookieOptions);
+                        // JWT dans le header
+                        var cookieOptions = new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = true,
+                            Expires = DateTime.UtcNow.AddDays(1) // Définir la durée de vie du cookie
+                        };
+                        _httpContextAccessor.HttpContext.Response.Cookies.Append("Jwt", token, cookieOptions);
 
-                    // Message de connexion avec le nom de l'utilisateur
-                    TempData["SuccessMessage"] = $"Connexion réussie ! Bienvenue, { model.Username}.";
+                        // Message de connexion avec le nom de l'utilisateur
+                        TempData["SuccessMessage"] = $"Connexion réussie ! Bienvenue, {model.Username}.";
 
-                    return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home");
+                    }
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 }
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "An error occurred during the login process.");
+                    return StatusCode(500, "Internal server error");
+                }
             }
             return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            // Récupérer le token JWT depuis le cookie
-            var token = HttpContext.Request.Cookies["Jwt"];
-            var userName = "Utilisateur";
-
-            if (!string.IsNullOrEmpty(token))
+            try
             {
-                userName = await _authenticationLogin.GetUserNameFromTokenAsync(token);
-            }
+                // Récupérer le token JWT depuis le cookie
+                var token = HttpContext.Request.Cookies["Jwt"];
+                var userName = "Utilisateur";
 
-            HttpContext.Session.Clear();
-
-            // Supprimer le cookie JWT
-            if (HttpContext.Request.Cookies["Jwt"] != null)
-            {
-                var cookieOptions = new CookieOptions
+                if (!string.IsNullOrEmpty(token))
                 {
-                    Expires = DateTime.UtcNow.AddDays(-1)
-                };
-                HttpContext.Response.Cookies.Append("Jwt", "", cookieOptions);
+                    userName = await _authenticationLogin.GetUserNameFromTokenAsync(token);
+                }
+
+                HttpContext.Session.Clear();
+
+                // Supprimer le cookie JWT
+                if (HttpContext.Request.Cookies["Jwt"] != null)
+                {
+                    var cookieOptions = new CookieOptions
+                    {
+                        Expires = DateTime.UtcNow.AddDays(-1)
+                    };
+                    HttpContext.Response.Cookies.Append("Jwt", "", cookieOptions);
+                }
+
+                TempData["SuccessMessage"] = $"Déconnexion réussie, {userName}.";
+
+                return RedirectToAction("Index", "Home");
             }
-
-            TempData["SuccessMessage"] = $"Déconnexion réussie, {userName}.";
-
-            return RedirectToAction("Index", "Home");
+            catch (Exception ex)
+            {
+                Log.Error(ex, "An error occurred during the logout process.");
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }
