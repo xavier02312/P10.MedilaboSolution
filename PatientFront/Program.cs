@@ -39,6 +39,12 @@ builder.Services.AddHttpClient<PatientNoteService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:7078"); // Adress PatientNote launchSettings.json
 });
+
+builder.Services.AddHttpClient<PatientRapportDiabeteService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7234"); // Adress PatientRapportDiabete launchSetting.json
+});
+
 // Enregistrement du service IAuthenticationServices
 builder.Services.AddScoped<IAuthenticationServices, AuthenticationLogin>();
 

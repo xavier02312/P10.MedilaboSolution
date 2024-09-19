@@ -15,8 +15,9 @@
             <th>Genre</th>
             <th>Adresse</th>
             <th>Téléphone</th>
-            <Th>Ajouter une note</Th>
+            <th>Voir les notes</th>
             <th>Actions</th>
+            <th>Risque</th>
         </tr>
     </thead>
     <tbody>
@@ -39,6 +40,9 @@
                             <button type="submit" class="btn btn-link">Supprimer</button>
                         </form>
                     </td>
+                <td>
+                    <a asp-action="GetRisk" asp-controller="PatientsRapportDiabete" asp-route-patientId="@patient.Id" class="btn btn-primary">Voir le risque</a>
+                    @ViewBag.RiskLevel</td>
                 </tr>
         }
     </tbody>

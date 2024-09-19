@@ -13,6 +13,7 @@ namespace PatientFront.Controllers
         {
             _patientServiceApi = patientServiceApi;
         }
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             try
@@ -31,6 +32,7 @@ namespace PatientFront.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+        [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
             try
@@ -51,6 +53,7 @@ namespace PatientFront.Controllers
         }
         // GET: 
         // Action pour afficher le formulaire de création de patient
+        [HttpGet]
         public IActionResult Ajout()
         {
             return  View();
@@ -76,6 +79,7 @@ namespace PatientFront.Controllers
             }
         }
         // GET: Patient/Update?id={id}
+        [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
             try
@@ -119,7 +123,7 @@ namespace PatientFront.Controllers
                 if (ModelState.IsValid)
                 {
                     var patient = await _patientServiceApi.UpdatePatientAsync(id, input);
-                    return RedirectToAction(nameof(Details), new { id = patient.Id });
+                    return RedirectToAction(nameof(Index), new { id = patient.Id });
                 }
                 return View(input);
             }

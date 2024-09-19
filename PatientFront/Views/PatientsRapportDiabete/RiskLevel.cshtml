@@ -1,0 +1,12 @@
+﻿@model RiskEnum?
+@using PatientRapportDiabete.Models
+
+@{
+    ViewData["Title"] = "Niveau de Risque";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>Le niveau de risque pour le patient est :<span class="text-danger"> @Model </span></p>
+
+<a asp-action="Index" asp-controller="Patients" class="btn btn-primary">Retour</a>
