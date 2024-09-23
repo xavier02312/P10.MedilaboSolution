@@ -32,6 +32,7 @@ namespace PatientFront.Service
         {
             try
             {
+                // Effectuer la requête GET
                 var patients = await _httpClient.GetFromJsonAsync<List<PatientOutputModel>>("/Patient/list");
                 return patients;
             }
@@ -46,7 +47,18 @@ namespace PatientFront.Service
         {
             try
             {
-                var patient = await _httpClient.GetFromJsonAsync<PatientOutputModel>($"/Patient/Get?id={id}");
+                // Effectuer la requête GET
+                var response = await _httpClient.GetAsync($"/Patient/Get?id={id}");
+
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized || response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    // Log l'erreur et retourner null
+                    Log.Error($"Unauthorized or Forbidden access while fetching patient details. StatusCode: {response.StatusCode}");
+                    return null;
+                }
+
+                response.EnsureSuccessStatusCode();
+                var patient = await response.Content.ReadFromJsonAsync<PatientOutputModel>();
                 return patient;
             }
             catch (Exception ex)
@@ -60,7 +72,15 @@ namespace PatientFront.Service
         {
             try
             {
+                // Effectuer la requête POST
                 var response = await _httpClient.PostAsJsonAsync("/Patient/Ajout", input);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized || response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    // Log l'erreur et retourner null
+                    Log.Error($"Unauthorized or Forbidden access while creating patient. StatusCode: {response.StatusCode}");
+                    return null;
+                }
                 response.EnsureSuccessStatusCode();
 
                 var patient = await response.Content.ReadFromJsonAsync<PatientOutputModel>();
@@ -78,7 +98,15 @@ namespace PatientFront.Service
         {
             try
             {
+                // Effectuer la requête PUT
                 var response = await _httpClient.PutAsJsonAsync($"/Patient/update?id={id}", input);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized || response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    // Log l'erreur et retourner null
+                    Log.Error($"Unauthorized or Forbidden access while updating patient. StatusCode: {response.StatusCode}");
+                    return null;
+                }
                 response.EnsureSuccessStatusCode();
 
                 var patient = await response.Content.ReadFromJsonAsync<PatientOutputModel>();
@@ -95,9 +123,18 @@ namespace PatientFront.Service
         {
             try
             {
+                // Effectuer la requête POST
                 var response = await _httpClient.DeleteAsync($"/Patient/delete?id={id}");
+
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized || response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    // Log l'erreur 
+                    Log.Error($"Unauthorized or Forbidden access while deleting patient. StatusCode: {response.StatusCode}");
+                    return null;
+                }
                 response.EnsureSuccessStatusCode();
 
+                // Effectuer la requête GET
                 var patients = await _httpClient.GetFromJsonAsync<List<PatientOutputModel>>("/Patient/list");
                 return patients;
             }

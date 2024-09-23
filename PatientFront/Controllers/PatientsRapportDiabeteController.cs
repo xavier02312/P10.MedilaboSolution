@@ -21,7 +21,7 @@ namespace PatientFront.Controllers
 
                 if (patient == null)
                 {
-                    return NotFound("Patient not found");
+                    return View("404");
                 }
 
                 var riskLevel = await _patientRapportDiabeteService.GetRiskLevel(patient.Id); // Calcul le risque
@@ -53,7 +53,7 @@ namespace PatientFront.Controllers
 
                 if (riskLevel == null)
                 {
-                    return NotFound("Patient not found");
+                    return View("404");
                 }
 
                 ViewBag.RiskLevel = riskLevel;

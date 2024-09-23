@@ -17,11 +17,24 @@ namespace PatientFront.Controllers
         {
             return View();
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [Route("Home/Error/{statusCode}")]
+        public async Task<IActionResult> Error(int statusCode)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            if (statusCode == 404)
+            {
+                return await Task.FromResult(View("404"));
+            }
+            else if (statusCode == 401 || statusCode == 403)
+            {
+                return await Task.FromResult(View("404"));
+            }
+
+            return await Task.FromResult(View("Error"));
+        }
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public async Task<IActionResult> Error()
+        {
+            return await Task.FromResult(View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier }));
         }
     }
 }

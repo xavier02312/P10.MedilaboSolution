@@ -65,6 +65,8 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
+    // Page 404
+    app.UseStatusCodePagesWithReExecute("/Home/Error{0}");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
@@ -76,8 +78,13 @@ app.UseStaticFiles();
 app.UseRouting();
 // Ajout de l'utilisation des sessions pour le token
 app.UseSession();
+// Ajout pour l'Authentication
+app.UseAuthentication();
 
 app.UseAuthorization();
+
+// Ajouter le middleware personnalisé Authentication
+app.UseMiddleware<RedirectUnauthorizedMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

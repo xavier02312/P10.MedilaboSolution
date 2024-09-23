@@ -25,6 +25,7 @@ namespace PatientFront.Service
         {
             try
             {
+                // Effectuer la requête POST
                 var connection = await _httpClient.PostAsJsonAsync("/Authentication/Login", 
                     new { Username = username, Password = password });
                 connection.EnsureSuccessStatusCode();

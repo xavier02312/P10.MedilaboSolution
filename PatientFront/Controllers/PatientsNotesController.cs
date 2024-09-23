@@ -21,7 +21,7 @@ namespace PatientFront.Controllers
 
                 if (patientNotes == null)
                 {
-                    return NotFound();
+                    return View("404");
                 }
                 return View(patientNotes);
             }
