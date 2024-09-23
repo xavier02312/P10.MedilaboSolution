@@ -69,7 +69,10 @@ namespace PatientFront.Controllers
                     await _patientServiceApi.CreateAsync(input);
                     return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Ajout));
+                // Error model no valid
+                ModelState.AddModelError(string.Empty, "Le modèle n'est pas valide. Veuillez vérifier les informations saisies.");
+                
+                return View(nameof(Ajout));
             }
             catch (Exception ex)
             {

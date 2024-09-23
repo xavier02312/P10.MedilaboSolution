@@ -56,9 +56,21 @@ namespace PatientService.Service
 
                 if (patient is not null)
                 {
-                    return ToOutputModel(patient);
+                    var output = ToOutputModel(patient);
+
+                    // Récupérez l'adresse à partir de l'ID de l'adresse
+                    if (patient.AddressId.HasValue)
+                    {
+                        var address = await _adressRepository.Read(patient.AddressId.Value);
+                        if (address != null)
+                        {
+                            output.Address = address.Name;
+                        }
+                    }
+
+                    return output;
                 }
-                return null;
+                    return null;
             }
             catch
             {
