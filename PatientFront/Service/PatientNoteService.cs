@@ -31,8 +31,11 @@ namespace PatientFront.Service
         {
             try
             {
+                // Effectuer la requête POST
                 var response = await _httpClient.PostAsJsonAsync("/Note/Create", noteModel);
+
                 response.EnsureSuccessStatusCode();
+
                 var patientNote = await response.Content.ReadFromJsonAsync<NoteOutputModel>();
                 return patientNote;
             }
@@ -52,6 +55,7 @@ namespace PatientFront.Service
         {
             try
             {
+                // Effectuer la requête GET
                 var response = await _httpClient.GetAsync($"/Note/GetNotes?patientId={patientId}");
 
                 var notes = await response.Content.ReadFromJsonAsync<List<NoteOutputModel>>();

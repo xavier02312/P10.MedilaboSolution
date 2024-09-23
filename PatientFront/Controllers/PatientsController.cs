@@ -21,7 +21,8 @@ namespace PatientFront.Controllers
                 var patients = await _patientServiceApi.ListAsync();
                 if (patients == null)
                 {
-                    return NotFound();
+                    // Page 404
+                    return View("404");
                 }
                 return View(patients);
             }
@@ -40,7 +41,8 @@ namespace PatientFront.Controllers
                 var patient = await _patientServiceApi.GetByIdAsync(id);
                 if (patient == null)
                 {
-                    return NotFound();
+                    // Page 404
+                    return View("404");
                 }
                 return View(patient);
             }
@@ -66,7 +68,15 @@ namespace PatientFront.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _patientServiceApi.CreateAsync(input);
+                    var patient = await _patientServiceApi.CreateAsync(input);
+                    if (patient == null)
+                    {
+                        // Page 404
+                        return View("404");
+                    }
+
+                    // Message de confirmation à TempData
+                    TempData["SuccessMessage"] = "Le patient a été ajouté avec succès.";
                     return RedirectToAction(nameof(Index));
                 }
                 // Error model no valid
@@ -93,9 +103,11 @@ namespace PatientFront.Controllers
                 }
 
                 var patient = await _patientServiceApi.GetByIdAsync(id);
+
                 if (patient == null)
                 {
-                    return NotFound();
+                    // Page 404
+                    return View("404");
                 }
 
                 var inputModel = new PatientInputModel
@@ -126,6 +138,16 @@ namespace PatientFront.Controllers
                 if (ModelState.IsValid)
                 {
                     var patient = await _patientServiceApi.UpdatePatientAsync(id, input);
+
+                    if (patient == null)
+                    {
+                        // Page 404
+                        return View("404");
+                    }
+
+                    // Message de confirmation à TempData
+                    TempData["SuccessMessage"] = "Le patient a été modifier avec succès.";
+
                     return RedirectToAction(nameof(Index), new { id = patient.Id });
                 }
                 return View(input);
@@ -137,13 +159,38 @@ namespace PatientFront.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+        // GET: 
+        // Action pour afficher la comfirmation 
+        [HttpGet]
+        public async Task<IActionResult> ConfirmDelete(int id)
+        {
+            var patient = await _patientServiceApi.GetByIdAsync(id);
+
+            if (patient == null)
+            {
+                // Page 404
+                return View("404");
+            }
+            
+            return View(patient);
+        }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             try
             {
                 var patients = await _patientServiceApi.DeletePatientAsync(id);
+
+                if (patients == null)
+                {
+                    // Page 404
+                    return View("404");
+                }
+
+                // Message de confirmation de suppression
+                TempData["SuccessMessage"] = "Le patient a été supprimé avec succès.";
+
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)

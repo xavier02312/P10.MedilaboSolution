@@ -6,9 +6,17 @@
 
 <h1>@ViewData["Title"]</h1>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+       @*  Message  *@
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 <table class="table">
     <thead>
-        <tr>
+        <tr class ="text-center">
             <th>ID</th>
             <th>Nom</th>
             <th>Date de Naissance</th>
@@ -23,7 +31,7 @@
     <tbody>
         @foreach (var patient in Model)
         {
-                <tr>
+                <tr class="text-center">
                     <td>@patient.Id</td>
                     <td>@patient.FirstName @patient.LastName</td>
                     <td>@patient.DateOfBirth.ToString("yyyy/MM/dd")</td>
@@ -31,23 +39,21 @@
                     <td>@patient.Address</td>
                     <td>@patient.PhoneNumber</td>
                         <td>
-                        <a asp-action="Index" asp-controller="PatientsNotes" asp-route-patientId="@patient.Id" class="btn btn-primary">Voir les notes</a>
+                        <a asp-action="Index" asp-controller="PatientsNotes" asp-route-patientId="@patient.Id" class="btn btn-outline-info">Voir les notes</a>
                     </td>
                         <td>
                         <a asp-action="Details" asp-route-id="@patient.Id">Détails</a> |
                         <a asp-action="Update" asp-route-id="@patient.Id">Modifier </a> |
-                        <form asp-action="Delete" asp-route-id="@patient.Id" method="post" style="display:inline;">
-                            <button type="submit" class="btn btn-link">Supprimer</button>
-                        </form>
+                    <a asp-action="ConfirmDelete" asp-route-id="@patient.Id">Supprimer</a>
                     </td>
                 <td>
-                    <a asp-action="GetRisk" asp-controller="PatientsRapportDiabete" asp-route-patientId="@patient.Id" class="btn btn-primary">Voir le risque</a>
+                    <a asp-action="GetRisk" asp-controller="PatientsRapportDiabete" asp-route-patientId="@patient.Id" class="btn btn-outline-warning">Voir le risque</a>
                     @ViewBag.RiskLevel</td>
                 </tr>
         }
     </tbody>
 </table>
 
-<a asp-action="Ajout">Ajouter un nouveau patient</a>
+<a asp-action="Ajout" class="btn btn-outline-success">Ajouter un nouveau patient</a>
 
 
