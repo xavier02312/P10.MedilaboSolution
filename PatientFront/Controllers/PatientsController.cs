@@ -18,19 +18,20 @@ namespace PatientFront.Controllers
         {
             try
             {
-                var patients = await _patientServiceApi.ListAsync();
-                if (patients == null)
+                var (Patients, HttpStatusCode) = await _patientServiceApi.ListAsync();
+
+                if (Patients == null)
                 {
-                    // Page 404
-                    return View("404");
+                    // Page Error
+                    return RedirectToAction("Error", "Home", new { statusCode = (int)HttpStatusCode });
                 }
-                return View(patients);
+                return View(Patients);
             }
             catch (Exception ex)
             {
                 // Log the exception
                 Log.Error(ex, "Error fetching patient list");
-                return StatusCode(500, "Internal server error");
+                return RedirectToAction("Error", "Home", new { statusCode = 500 });
             }
         }
         [HttpGet]
@@ -38,19 +39,20 @@ namespace PatientFront.Controllers
         {
             try
             {
-                var patient = await _patientServiceApi.GetByIdAsync(id);
-                if (patient == null)
+                var (Patients, HttpStatusCode) = await _patientServiceApi.GetByIdAsync(id);
+
+                if (Patients == null)
                 {
-                    // Page 404
-                    return View("404");
+                    // Page Error
+                    return RedirectToAction("Error", "Home", new { statusCode = (int)HttpStatusCode });
                 }
-                return View(patient);
+                return View(Patients);
             }
             catch (Exception ex)
             {
                 // Log the exception
                 Log.Error(ex, $"Error fetching patient with ID {id}");
-                return StatusCode(500, "Internal server error");
+                return RedirectToAction("Error", "Home", new { statusCode = 500 });
             }
         }
         // GET: 
@@ -68,11 +70,12 @@ namespace PatientFront.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var patient = await _patientServiceApi.CreateAsync(input);
-                    if (patient == null)
+                    var (Patients, HttpStatusCode) = await _patientServiceApi.CreateAsync(input);
+
+                    if (Patients == null)
                     {
-                        // Page 404
-                        return View("404");
+                        // Page Error
+                        return RedirectToAction("Error", "Home", new { statusCode = (int)HttpStatusCode });
                     }
 
                     // Message de confirmation à TempData
@@ -102,22 +105,22 @@ namespace PatientFront.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
-                var patient = await _patientServiceApi.GetByIdAsync(id);
+                var (Patients, HttpStatusCode) = await _patientServiceApi.GetByIdAsync(id);
 
-                if (patient == null)
+                if (Patients == null)
                 {
-                    // Page 404
-                    return View("404");
+                    // Page Error
+                    return RedirectToAction("Error", "Home", new { statusCode = (int)HttpStatusCode });
                 }
 
                 var inputModel = new PatientInputModel
                 {
-                    FirstName = patient.FirstName,
-                    LastName = patient.LastName,
-                    DateOfBirth = patient.DateOfBirth,
-                    Gender = patient.Gender,
-                    Address = patient.Address,
-                    PhoneNumber = patient.PhoneNumber
+                    FirstName = Patients.FirstName,
+                    LastName = Patients.LastName,
+                    DateOfBirth = Patients.DateOfBirth,
+                    Gender = Patients.Gender,
+                    Address = Patients.Address,
+                    PhoneNumber = Patients.PhoneNumber
                 };
 
                 return View(inputModel);
@@ -126,7 +129,7 @@ namespace PatientFront.Controllers
             {
                 // Log the exception
                 Log.Error(ex, $"Error fetching patient with ID {id}");
-                return StatusCode(500, "Internal server error");
+                return RedirectToAction("Error", "Home", new { statusCode = 500 });
             }
         }
 
@@ -137,18 +140,18 @@ namespace PatientFront.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var patient = await _patientServiceApi.UpdatePatientAsync(id, input);
+                    var (Patients, HttpStatusCode) = await _patientServiceApi.UpdatePatientAsync(id, input);
 
-                    if (patient == null)
+                    if (Patients == null)
                     {
-                        // Page 404
-                        return View("404");
+                        // Page Error
+                        return RedirectToAction("Error", "Home", new { statusCode = (int)HttpStatusCode });
                     }
 
                     // Message de confirmation à TempData
                     TempData["SuccessMessage"] = "Le patient a été modifier avec succès.";
 
-                    return RedirectToAction(nameof(Index), new { id = patient.Id });
+                    return RedirectToAction(nameof(Index), new { id = Patients.Id });
                 }
                 return View(input);
             }
@@ -156,7 +159,7 @@ namespace PatientFront.Controllers
             {
                 // Log the exception
                 Log.Error(ex, $"Error updating patient with ID {id}");
-                return StatusCode(500, "Internal server error");
+                return RedirectToAction("Error", "Home", new { statusCode = 500 });
             }
         }
         // GET: 
@@ -164,15 +167,15 @@ namespace PatientFront.Controllers
         [HttpGet]
         public async Task<IActionResult> ConfirmDelete(int id)
         {
-            var patient = await _patientServiceApi.GetByIdAsync(id);
+            var (Patients, HttpStatusCode) = await _patientServiceApi.GetByIdAsync(id);
 
-            if (patient == null)
+            if (Patients == null)
             {
-                // Page 404
-                return View("404");
+                // Page Error
+                return RedirectToAction("Error", "Home", new { statusCode = (int)HttpStatusCode });
             }
             
-            return View(patient);
+            return View(Patients);
         }
 
         [HttpPost]
@@ -180,12 +183,11 @@ namespace PatientFront.Controllers
         {
             try
             {
-                var patients = await _patientServiceApi.DeletePatientAsync(id);
+                var (Patients, HttpStatusCode) = await _patientServiceApi.DeletePatientAsync(id);
 
-                if (patients == null)
+                if (Patients == null)
                 {
-                    // Page 404
-                    return View("404");
+                    return RedirectToAction("Error", "Home", new { statusCode = (int)HttpStatusCode });
                 }
 
                 // Message de confirmation de suppression
@@ -197,7 +199,7 @@ namespace PatientFront.Controllers
             {
                 // Log the exception
                 Log.Error(ex, $"Error deleting patient with ID {id}");
-                return StatusCode(500, "Internal server error");
+                return RedirectToAction("Error", "Home", new { statusCode = 500 });
             }
         }
     }

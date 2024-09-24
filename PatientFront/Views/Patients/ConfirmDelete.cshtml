@@ -5,13 +5,15 @@
     ViewData["Title"] = "Confirmation de suppression";
 }
 
-<h2>Confirmation de suppression</h2>
+<div class="text-center">
+    <h2>Confirmation de suppression</h2>
 
-<h4>Êtes-vous sûr de vouloir supprimer ce patient ?</h4>
-<h4><strong> @Model.FirstName @Model.LastName </strong></h4>
+    <h4>Êtes-vous sûr de vouloir supprimer ce patient ?</h4>
+    <h4 class="mb-4"><strong>" @Model.FirstName @Model.LastName "</strong></h4>
 
     <form asp-action="DeleteConfirmed" method="post">
         <input type="hidden" name="id" value="@Model.Id" />
-        <button type="submit" class="btn btn-danger">Oui</button>
-        <a asp-action="Index" class="btn btn-secondary">Non</a>
+        <button type="submit" class="btn btn-outline-danger">Oui</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Non</a>
     </form>
+</div>

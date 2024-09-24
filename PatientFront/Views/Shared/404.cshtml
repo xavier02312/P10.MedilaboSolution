@@ -1,9 +1,11 @@
-﻿@{
+﻿<!-- Views/Home/404.cshtml -->
+@{
     ViewData["Title"] = "Page Not Found";
 }
 
 <div class="text-center">
     <h2>404 - Page Not Found</h2>
-    <p>Sorry, the page you are looking for does not exist.</p>
+    <p>La page que vous recherchez n'existe pas</p>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-success">Retour à l'accueil</a>
 </div>
 

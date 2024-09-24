@@ -1,4 +1,5 @@
 ﻿using PatientService.Service;
+using Serilog;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using System.Text.Json;
@@ -41,7 +42,7 @@ namespace PatientFront.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error during login");
+                Log.Error(ex, "Error during login");
             }
 
             return string.Empty;

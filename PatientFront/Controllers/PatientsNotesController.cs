@@ -17,18 +17,19 @@ namespace PatientFront.Controllers
         {
             try
             {
-                var patientNotes = await _patientNoteService.GetNotes(patientId);
+                var (Notes, HttpStatusCode) = await _patientNoteService.GetNotes(patientId);
 
-                if (patientNotes == null)
+                if (Notes == null)
                 {
-                    return View("404");
+                    // View Error
+                    return RedirectToAction("Error", "Home", new { statusCode = (int)HttpStatusCode });
                 }
-                return View(patientNotes);
+                return View(Notes);
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Error fetching patient notes");
-                return StatusCode(500, "Internal server error");
+                return RedirectToAction("Error", "Home", new { statusCode = 500 });
             }
         }
         // GET: 
@@ -45,7 +46,12 @@ namespace PatientFront.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _patientNoteService.Create(noteModel);
+                    var (Note, HttpStatusCode) = await _patientNoteService.Create(noteModel);
+
+                    if (Note == null)
+                    {
+                        return RedirectToAction("Error", "Home", new { statusCode = (int)HttpStatusCode });
+                    }
                     return RedirectToAction("Index", "Patients");
                 }
                 return RedirectToAction(nameof(Index));
@@ -53,7 +59,7 @@ namespace PatientFront.Controllers
             catch (Exception ex)
             {
                 Log.Error(ex, "Error creating patient note");
-                return StatusCode(500, "Internal server error");
+                return RedirectToAction("Error", "Home", new { statusCode = 500 });
             }
         }
     }
