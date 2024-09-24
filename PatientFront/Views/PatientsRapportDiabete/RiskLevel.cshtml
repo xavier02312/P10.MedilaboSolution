@@ -5,8 +5,10 @@
     ViewData["Title"] = "Niveau de Risque";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="text-center">
+    <h2>@ViewData["Title"]</h2>
 
-<p>Le niveau de risque pour le patient est :<span class="text-danger"> @Model </span></p>
+    <h4>Le niveau de risque pour le patient est :<span class="text-danger"> @Model </span></h4>
 
-<a asp-action="Index" asp-controller="Patients" class="btn btn-outline-danger">Retour</a>
+    <a asp-action="Index" asp-controller="Patients" class="btn btn-outline-danger">Retour</a>
+</div>

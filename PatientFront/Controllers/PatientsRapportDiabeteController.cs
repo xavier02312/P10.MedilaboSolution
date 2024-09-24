@@ -21,6 +21,7 @@ namespace PatientFront.Controllers
 
                 if (patient == null)
                 {
+                    // View Error
                     return View("404");
                 }
 
@@ -53,6 +54,7 @@ namespace PatientFront.Controllers
 
                 if (riskLevel == null)
                 {
+                    // View Error
                     return View("404");
                 }
 

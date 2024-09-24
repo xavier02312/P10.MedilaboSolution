@@ -22,11 +22,8 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">             
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Patients" asp-action="Index">Accueil</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Patients" asp-action="Index">Liste de Patients</a>
                         </li>
-                        @* <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Connexion</a>
-                        </li> *@
                         @if (HttpContextAccessor.HttpContext.Request.Cookies["Jwt"] != null)
                         {
                             <li class="nav-item">

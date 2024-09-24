@@ -44,16 +44,11 @@ namespace PatientFront.Service
                     Log.Error($"Request failed with status code: {response.StatusCode} and reason: {response.ReasonPhrase}");
                 }
             }
-            catch (HttpRequestException ex)
-            {
-                // Log l'exception
-                Log.Error($"HTTP request failed: {ex.Message}");
-            }
             catch (Exception ex)
             {
                 // Log toute autre exception
                 Log.Error($"Unexpected error: {ex.Message}");
-            }
+            }          
             return null;
         }
         // Récupérer des notes
@@ -74,16 +69,11 @@ namespace PatientFront.Service
                     Log.Error($"Request failed with status code: {response.StatusCode} and reason: {response.ReasonPhrase}");
                 }
             }
-            catch (HttpRequestException ex)
-            {
-                // Log l'exception
-                Log.Error($"HTTP request failed: {ex.Message}");
-            }
             catch (Exception ex)
             {
                 // Log toute autre exception
                 Log.Error($"Unexpected error: {ex.Message}");
-            }
+            }           
             return null;
         }
         // Niveau de risque d'un patient
@@ -102,11 +92,7 @@ namespace PatientFront.Service
                 {
                     Log.Error($"Request failed with status code: {response.StatusCode} and reason: {response.ReasonPhrase}");
                 }
-            }
-            catch (HttpRequestException ex)
-            {
-                Log.Error($"HTTP request failed: {ex.Message}");
-            }
+                }
             catch (Exception ex)
             {
                 Log.Error($"Unexpected error: {ex.Message}");

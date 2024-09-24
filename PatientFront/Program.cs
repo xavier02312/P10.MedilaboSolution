@@ -55,6 +55,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = "/Login/Index";
     });
 
+// Fournisseurs de journalisation
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
