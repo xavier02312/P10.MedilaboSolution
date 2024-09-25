@@ -1,0 +1,18 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "composeLaunchAction": "None",
+      "composeLaunchServiceName": "patientservice",
+      "serviceActions": {
+        "patientservice": "StartDebugging",
+        "patientrapportdiabete": "StartDebugging",
+        "patientnote": "StartDebugging",
+        "patientfront": "StartDebugging",
+        "apigatewayocelot": "StartDebugging",
+        "sqlserver": "StartWithoutDebugging"
+      }
+    }
+  }
+}
