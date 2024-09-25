@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	  <RootNamespace>PatientService</RootNamespace>
 	  <UserSecretsId>0a4863a4-fb6c-4efd-9b23-e542ccf85041</UserSecretsId>
+	  <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +22,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="Serilog" Version="4.0.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />

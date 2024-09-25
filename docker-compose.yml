@@ -1,0 +1,78 @@
+services:
+  patientservice:
+    image: patientservice
+    container_name: patientservice
+    build:
+      context: .
+      dockerfile: PatientService/Dockerfile
+    depends_on:
+      - sqlserver
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: SQL-Server
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Gk3vLNdhBQf9HMQc
+    ports:
+      - "7239:7239"
+    volumes:
+      - mysql-data:/var/lib/mysql  
+  
+  patientrapportdiabete:
+    image: patientrapportdiabete
+    container_name: patientrapportdiabete
+    build:
+      context: .
+      dockerfile: PatientRapportDiabete/Dockerfile
+    ports:
+      - "7234:7234" 
+
+  patientnote:
+    image: patientnote
+    container_name: patientnote
+    build:
+      context: .
+      dockerfile: PatientNote/Dockerfile
+    depends_on:
+      - sqlserver
+      - mongo
+    ports:
+      - "7078:7078" 
+
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017" 
+
+  patientfront:
+    image: patientfront
+    container_name: patientfront
+    build:
+      context: .
+      dockerfile: PatientFront/Dockerfile
+    ports:
+      - "7220:7220" 
+
+  apigatewayocelot:
+    image: apigatewayocelot
+    container_name: apigatewayocelot
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Developement
+      - ASPNETCORE_HTTP_PORTS=7202
+      - PatientFrontUrl=http://localhost:7220
+      - PatientServiceUrl=http://localhost:7239
+      - PatientNoteUrl=http://localhost:7078
+      - PatientRapportDiabeteUrl=http://localhost:7234
+    build:
+      context: .
+      dockerfile: ApiGatewayOcelot/Dockerfile
+    ports:
+      - "7202:7202"
+    depends_on:
+      - patientservice
+
+volumes:
+  mysql-data: 
