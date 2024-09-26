@@ -20,14 +20,14 @@
   - Un application client PatientFront
 
 #### Ci-dessous vous pouvez retrouver un diagramme représentant l'architecture de l'application :
-```mermaid	
-  graph TD;
-	ApiGatewayOcelot[[ApiGatewayOcelot]]  -->  PatientService[PatientService]
-	ApiGatewayOcelot  -->  PatientRapportDiabete[PatientRapportDiabete]
-	ApiGatewayOcelot  -->  PatientNote[PatientNote]
-	PatientService  -->  SQL[(SQL Server)]
-	PatientNote  -->  MongoDB[(MongoDB)]
-	Client[PatientFront]  <-->  ApiGatewayOcelot
+```mermaid
+graph TD;
+  ApiGatewayOcelot[[ApiGatewayOcelot]]  -->  PatientService[PatientService]
+  ApiGatewayOcelot  -->  PatientRapportDiabete[PatientRapportDiabete]
+  ApiGatewayOcelot  -->  PatientNote[PatientNote]
+  PatientService  -->  SQL[(SQL Server)]
+  PatientNote  -->  MongoDB[(MongoDB)]
+  Client[PatientFront]  <-->  ApiGatewayOcelot
 
 ---
 ## Technologies utilisées
