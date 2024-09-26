@@ -73,7 +73,7 @@ ApiGatewayOcelot[[ApiGatewayOcelot]]  -->  PatientService[PatientService]
 #### Lors de la création de nos conteneurs, 3 comptes ont été créés, chacun ayant différents accès ou restrictions sur l'application.
 
 #### __Le compte organisateur__:
-#### nom de compte : organizer
+ nom de compte : organizer
 #### mot de passe : 6yb64nOav4M?JmHzn
 #### Il possède le rôle organizer.
 
