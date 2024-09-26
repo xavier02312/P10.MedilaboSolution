@@ -73,18 +73,18 @@ ApiGatewayOcelot[[ApiGatewayOcelot]]  -->  PatientService[PatientService]
 #### Lors de la création de nos conteneurs, 3 comptes ont été créés, chacun ayant différents accès ou restrictions sur l'application.
 
 #### __Le compte organisateur__:
- nom de compte : organizer
- mot de passe : 6yb64nOav4M?JmHzn
+- nom de compte : organizer
+- mot de passe : 6yb64nOav4M?JmHzn
 #### Il possède le rôle organizer.
 
 #### __Le compte praticien__:
- nom de compte : practitioner
- mot de passe : 6yb64nOav4M?JmHzn
+- nom de compte : practitioner
+- mot de passe : 6yb64nOav4M?JmHzn
 #### Il possède le rôle practitioner.
 
 #### __Le compte administrateur__:
- nom de compte : admin
- mot de passe : 6yb64nOav4M?JmHzn
+- nom de compte : admin
+- mot de passe : 6yb64nOav4M?JmHzn
 #### Il possède les rôles organizer et practitioner.
 
 #### Le rôle __organizer__ vous permet de créer des patients, de modifier leurs informations personnelles, ou de les supprimer. Quant au rôle __practitioner__, vous pourrez accéder au dossier d'un patient, comprenant l'historique des notes, le 
