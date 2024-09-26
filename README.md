@@ -18,7 +18,14 @@
   - Un base de données SQL Server
   - Une base de données MongoDB
   - Un application client PatientFront
-
+---
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
 ---
 ## Technologies utilisées
   
