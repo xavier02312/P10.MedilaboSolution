@@ -19,16 +19,6 @@
   - Une base de données MongoDB
   - Un application client PatientFront
 
-#### Ci-dessous vous pouvez retrouver un diagramme représentant l'architecture de l'application :
-```mermaid
-graph TD;
-  ApiGatewayOcelot[[ApiGatewayOcelot]]  -->  PatientService[PatientService]
-  ApiGatewayOcelot  -->  PatientRapportDiabete[PatientRapportDiabete]
-  ApiGatewayOcelot  -->  PatientNote[PatientNote]
-  PatientService  -->  SQL[(SQL Server)]
-  PatientNote  -->  MongoDB[(MongoDB)]
-  Client[PatientFront]  <-->  ApiGatewayOcelot
-
 ---
 ## Technologies utilisées
   
@@ -56,11 +46,15 @@ graph TD;
 
 #### Avant toute chose, vérifier que Docker est lancé sur votre ordinateur.
 
-  1. Cloner le projet `
-  2. git clone --single-branch --branch master https://github.com/xavier02312/P10.MedilaboSolution.git`
-  3. Dans le répertoire du projet utiliser cette commande pour créer nos images et lancer nos conteneurs docker.
-  4. `docker compose up`
-  5. Cela peut prendre plus au moins de temps selon votre connexion internet et les performances de votre machine.
+  1. Cloner le projet :
+   ```bash
+   git clone https://github.com/xavier02312/P10.MedilaboSolution.git
+
+  2. Dans le répertoire du projet utiliser cette commande pour créer nos images et lancer nos conteneurs docker
+  ```bash
+  docker compose up
+
+#### Cela peut prendre plus au moins de temps selon votre connexion internet et les performances de votre machine.
 
 ---
 ## Utilisation
@@ -70,22 +64,22 @@ graph TD;
  
 #### Lors de la création de nos conteneurs, 3 comptes ont été créés, chacun ayant différents accès ou restrictions sur l'application.
 
-#### **Le compte organisateur**:
+#### __Le compte organisateur__:
 #### nom de compte : organizer
 #### mot de passe : 6yb64nOav4M?JmHzn
 #### Il possède le rôle organizer.
 
-#### **Le compte praticien**:
+#### __Le compte praticien__:
 #### nom de compte : practitioner
 #### mot de passe : 6yb64nOav4M?JmHzn
 #### Il possède le rôle practitioner.
 
-#### **Le compte administrateur**:
+#### __Le compte administrateur__:
 #### nom de compte : admin
 #### mot de passe : 6yb64nOav4M?JmHzn
 #### Il possède les rôles organizer et practitioner.
 
-#### Le rôle **organizer** vous permet de créer des patients, de modifier leurs informations personnelles, ou de les supprimer. Quant au rôle **practitioner**, vous pourrez accéder au dossier d'un patient, comprenant l'historique des notes, le 
+#### Le rôle __organizer__ vous permet de créer des patients, de modifier leurs informations personnelles, ou de les supprimer. Quant au rôle __practitioner__, vous pourrez accéder au dossier d'un patient, comprenant l'historique des notes, le 
 #### risque de diabète du patient et vous aurez également la possibilité de créer des notes.
 
 ---
@@ -97,9 +91,9 @@ graph TD;
 
 ---
 ## Etat du projet
-#### Le projet est: *Terminé* 
+#### Le projet est: __Terminé__ 
 
 ---
 ## Contact
-#### Créer par https://github.com/xavier02312
+#### Créer par: https://github.com/xavier02312
 #### Mail: paqueriaudxavier@gmail.com
