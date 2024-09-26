@@ -25,8 +25,8 @@ graph TD;
 ApiGatewayOcelot[[ApiGatewayOcelot]]  -->  PatientService[PatientService]
 	ApiGatewayOcelot  -->  PatientRapportDiabete[PatientRapportDiabete]
 	ApiGatewayOcelot  -->  PatientNote[PatientNote]
-	Gestion-Patients  -->  SQL[(SQL Server)]
-	Gestion-Notes  -->  MongoDB[(MongoDB)]
+	PatientService  -->  SQL[(SQL Server)]
+	PatientNote  -->  MongoDB[(MongoDB)]
 	Client[PatientFront]  <-->  ApiGatewayOcelot
 ```
 ---
