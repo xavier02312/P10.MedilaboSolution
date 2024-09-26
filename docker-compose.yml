@@ -15,7 +15,7 @@ services:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=Gk3vLNdhBQf9HMQc
     ports:
-      - "7239:7239"
+      - "1433:1433"
     volumes:
       - mysql-data:/var/lib/mysql  
   
@@ -71,8 +71,6 @@ services:
       dockerfile: ApiGatewayOcelot/Dockerfile
     ports:
       - "7202:7202"
-    depends_on:
-      - patientservice
 
 volumes:
   mysql-data: 
