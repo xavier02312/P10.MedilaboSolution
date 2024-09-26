@@ -47,9 +47,7 @@
 #### Avant toute chose, vérifier que Docker est lancé sur votre ordinateur.
 
   1. Cloner le projet :
-   ```bash
-   git clone https://github.com/xavier02312/P10.MedilaboSolution.git
-
+  `git clone https://github.com/xavier02312/P10.MedilaboSolution.git`
   2. Dans le répertoire du projet utiliser cette commande pour créer nos images et lancer nos conteneurs docker
   `docker compose up`
   
