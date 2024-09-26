@@ -18,13 +18,16 @@
   - Un base de données SQL Server
   - Une base de données MongoDB
   - Un application client PatientFront
----
+
+#### Ci-dessous vous pouvez retrouver un diagramme représentant l'architecture de l'application :
 ```mermaid
 graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
+ApiGatewayOcelot[[ApiGatewayOcelot]]  -->  PatientService[PatientService]
+	ApiGatewayOcelot  -->  PatientRapportDiabete[PatientRapportDiabete]
+	ApiGatewayOcelot  -->  PatientNote[PatientNote]
+	Gestion-Patients  -->  SQL[(SQL Server)]
+	Gestion-Notes  -->  MongoDB[(MongoDB)]
+	Client[PatientFront]  <-->  ApiGatewayOcelot
 ```
 ---
 ## Technologies utilisées
