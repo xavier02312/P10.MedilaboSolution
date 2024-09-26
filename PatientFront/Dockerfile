@@ -19,7 +19,7 @@ COPY ["PatientService/PatientService.csproj", "PatientService/"]
 RUN dotnet restore "./PatientFront/PatientFront.csproj"
 COPY . .
 WORKDIR "/src/PatientFront"
-RUN dotnet build "./PatientFront.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./PatientFront.csproj" -c $BUILD_CONFIGURATION -o /app/build /p:UseAppHost=false
 
 # Cette étape permet de publier le projet de service à copier dans la phase finale
 FROM build AS publish
