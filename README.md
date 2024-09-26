@@ -51,8 +51,8 @@
    git clone https://github.com/xavier02312/P10.MedilaboSolution.git
 
   2. Dans le répertoire du projet utiliser cette commande pour créer nos images et lancer nos conteneurs docker
-  ```bash
-  docker compose up
+  `docker compose up`
+  
 
 #### Cela peut prendre plus au moins de temps selon votre connexion internet et les performances de votre machine.
 
