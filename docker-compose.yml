@@ -9,7 +9,7 @@ services:
       - sqlserver
 
   sqlserver:
-    image: mcr.microsoft.com/mssql/server:2019-latest
+    image: mcr.microsoft.com/mssql/server:2019-CU8-ubuntu-18.04
     container_name: SQL-Server
     environment:
       - ACCEPT_EULA=Y
