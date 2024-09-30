@@ -11,7 +11,8 @@
         "patientnote": "StartDebugging",
         "patientfront": "StartDebugging",
         "apigatewayocelot": "StartDebugging",
-        "sqlserver": "StartWithoutDebugging"
+        "sqlserver": "StartWithoutDebugging",
+        "mongo": "StartWithoutDebugging"
       }
     }
   }
