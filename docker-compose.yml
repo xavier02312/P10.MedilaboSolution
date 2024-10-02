@@ -54,7 +54,7 @@ services:
       context: .
       dockerfile: PatientFront/Dockerfile
     ports:
-      - "7220:8083"
+      - "7220:7220"
     environment:
         DatabaseServer: SQL-Server
         DatabasePort: 1433
