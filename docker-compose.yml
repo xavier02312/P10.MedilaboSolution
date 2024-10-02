@@ -54,7 +54,15 @@ services:
       context: .
       dockerfile: PatientFront/Dockerfile
     ports:
-      - "7220:7220" 
+      - "7220:8083"
+    environment:
+        DatabaseServer: SQL-Server
+        DatabasePort: 1433
+        DatabaseUser: SA
+        DatabasePassword: Gk3vLNdhBQf9HMQc
+        DatabaseName: PatientMicroService
+    depends_on:
+        - sqlserver
 
   apigatewayocelot:
     image: apigatewayocelot
