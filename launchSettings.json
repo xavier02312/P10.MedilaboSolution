@@ -10,7 +10,7 @@
         "patientservice": "StartDebugging",
         "patientrapportdiabete": "StartDebugging",
         "patientnote": "StartDebugging",
-        "patientfront": "StartDebugging",
+        "patientfront": "StartWithoutDebugging",
         "apigatewayocelot": "StartWithoutDebugging",
         "sqlserver": "StartWithoutDebugging",
         "mongo": "StartWithoutDebugging"
