@@ -7,6 +7,7 @@
 	  <RootNamespace>PatientRapportDiabete</RootNamespace>
 	  <UserSecretsId>ad33e84d-7f0e-4e35-a5a2-34a846e761bd</UserSecretsId>
 	  <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	  <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>

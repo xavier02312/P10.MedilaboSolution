@@ -7,6 +7,7 @@
 	  <RootNamespace>PatientNote</RootNamespace>
 	  <UserSecretsId>98f24679-cdee-48ed-8100-57a547835050</UserSecretsId>
 	  <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	  <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
