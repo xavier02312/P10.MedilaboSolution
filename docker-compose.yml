@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   patientservice:
     image: patientservice
@@ -9,6 +7,8 @@ services:
       dockerfile: PatientService/Dockerfile
     depends_on:
       - sqlserver
+    ports:
+      - "7239:8083"
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2019-CU8-ubuntu-18.04
@@ -28,7 +28,7 @@ services:
       context: .
       dockerfile: PatientRapportDiabete/Dockerfile
     ports:
-      - "7234:7234" 
+      - "7234:8082" 
 
   patientnote:
     image: patientnote
@@ -40,7 +40,7 @@ services:
       - sqlserver
       - mongo
     ports:
-      - "7078:7078" 
+      - "7078:8081" 
 
   mongo:
     image: mongo:latest
@@ -56,7 +56,7 @@ services:
       context: .
       dockerfile: PatientFront/Dockerfile
     ports:
-      - "7220:7220"
+      - "7220:8080"
     environment:
         DatabaseServer: SQL-Server
         DatabasePort: 1433
@@ -70,7 +70,7 @@ services:
     image: apigatewayocelot
     container_name: apigatewayocelot
     environment:
-      - ASPNETCORE_ENVIRONMENT=Developement
+      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=7202
       - PatientFrontUrl=http://localhost:7220
       - PatientServiceUrl=http://localhost:7239
@@ -80,7 +80,7 @@ services:
       context: .
       dockerfile: ApiGatewayOcelot/Dockerfile
     ports:
-      - "7202:7202"
+      - "7202:8084"
 
 volumes:
   mysql-data: 
