@@ -5,6 +5,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
 EXPOSE 8080
+EXPOSE 8180
 
 
 # Cette phase est utilisée pour générer le projet de service
@@ -18,7 +19,7 @@ COPY ["PatientService/PatientService.csproj", "PatientService/"]
 RUN dotnet restore "./PatientFront/PatientFront.csproj"
 COPY . .
 WORKDIR "/src/PatientFront"
-RUN dotnet build "./PatientFront.csproj" -c $BUILD_CONFIGURATION -o /app/build /p:UseAppHost=false
+RUN dotnet build "./PatientFront.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Cette étape permet de publier le projet de service à copier dans la phase finale
 FROM build AS publish

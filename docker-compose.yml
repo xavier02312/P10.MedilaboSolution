@@ -1,3 +1,5 @@
+version: '3'
+
 services:
   patientservice:
     image: patientservice
@@ -5,22 +7,11 @@ services:
     build:
       context: .
       dockerfile: PatientService/Dockerfile
-    depends_on:
-      - sqlserver
-    ports:
-      - "7239:8083"
-
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2019-CU8-ubuntu-18.04
-    container_name: SQL-Server
     environment:
-      - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=Gk3vLNdhBQf9HMQc
+      - SQLSERVER_URL=Server=localhost;Integrated Security = True;Database=PatientMicroService;Trusted_Connection=True;TrustServerCertificate=True;
     ports:
-      - "1433:1433"
-    volumes:
-      - mysql-data:/var/lib/mysql  
-  
+      - "7239:8183"
+ 
   patientrapportdiabete:
     image: patientrapportdiabete
     container_name: patientrapportdiabete
@@ -28,7 +19,7 @@ services:
       context: .
       dockerfile: PatientRapportDiabete/Dockerfile
     ports:
-      - "7234:8082" 
+      - "7234:8182" 
 
   patientnote:
     image: patientnote
@@ -37,10 +28,11 @@ services:
       context: .
       dockerfile: PatientNote/Dockerfile
     depends_on:
-      - sqlserver
       - mongo
+    environment:
+      - SQLSERVER_URL=Server=localhost;Integrated Security = True;Database=PatientMicroService;Trusted_Connection=True;TrustServerCertificate=True; 
     ports:
-      - "7078:8081" 
+      - "7078:8181" 
 
   mongo:
     image: mongo:latest
@@ -56,31 +48,25 @@ services:
       context: .
       dockerfile: PatientFront/Dockerfile
     ports:
-      - "7220:8080"
-    environment:
-        DatabaseServer: SQL-Server
-        DatabasePort: 1433
-        DatabaseUser: SA
-        DatabasePassword: Gk3vLNdhBQf9HMQc
-        DatabaseName: PatientMicroService
-    depends_on:
-        - sqlserver
+      - "7220:8180"
 
   apigatewayocelot:
     image: apigatewayocelot
     container_name: apigatewayocelot
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=7202
-      - PatientFrontUrl=http://localhost:7220
-      - PatientServiceUrl=http://localhost:7239
-      - PatientNoteUrl=http://localhost:7078
-      - PatientRapportDiabeteUrl=http://localhost:7234
+      - ASPNETCORE_HTTP_PORTS=8184
+      - PatientFrontUrl=https://localhost:7220
+      - PatientServiceUrl=https://localhost:7239
+      - PatientNoteUrl=https://localhost:7078
+      - PatientRapportDiabeteUrl=https://localhost:7234
     build:
       context: .
       dockerfile: ApiGatewayOcelot/Dockerfile
     ports:
-      - "7202:8084"
+      - "7202:8184"
+    depends_on:
+      - patientservice
 
 volumes:
-  mysql-data: 
+  mongo-data: 
