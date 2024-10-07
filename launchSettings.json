@@ -3,16 +3,14 @@
     "Docker Compose": {
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
-      "composeLaunchAction": "LaunchBrowser",
-      "composeLaunchServiceName": "patientfront",
-      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
+      "composeLaunchAction": "None",
+      "composeLaunchServiceName": "patientService",
       "serviceActions": {
         "patientservice": "StartDebugging",
         "patientrapportdiabete": "StartDebugging",
         "patientnote": "StartDebugging",
         "patientfront": "StartWithoutDebugging",
-        "apigatewayocelot": "StartWithoutDebugging",
-        "sqlserver": "StartWithoutDebugging",
+        "apigatewayocelot": "StartDebugging",
         "mongo": "StartWithoutDebugging"
       }
     }

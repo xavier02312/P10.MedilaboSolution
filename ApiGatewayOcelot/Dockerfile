@@ -5,6 +5,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
 EXPOSE 8084
+EXPOSE 8184
 
 
 # Cette phase est utilisée pour générer le projet de service
